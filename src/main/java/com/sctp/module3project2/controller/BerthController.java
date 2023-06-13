@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.sctp.module3project2.datatransferobject.BerthDto;
+import com.sctp.module3project2.dto.BerthDto;
 import com.sctp.module3project2.entity.Berth;
 import com.sctp.module3project2.services.BerthService;
 
@@ -34,11 +34,11 @@ import java.util.List;
  */
 
 @RequestMapping("/api/berth-location")
-public class BerthCtrl {
+public class BerthController {
 
     private final BerthService service;
 
-    public BerthCtrl(BerthService service) {
+    public BerthController(BerthService service) {
         this.service = service;
     }
 

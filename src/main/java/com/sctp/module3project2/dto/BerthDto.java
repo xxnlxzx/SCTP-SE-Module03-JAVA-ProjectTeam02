@@ -1,21 +1,19 @@
-package com.sctp.module3project2.datatransferobject;
+package com.sctp.module3project2.dto;
 
-// DATA TRANSFER OBJECTS.
 public class BerthDto {
     private Long id;
     private String name;
+    private String location;
     private boolean availability;
-    private String location; // Add the location field
 
-    // CONSTRUCTORS.
+    // DEFAULT CONSTRUCTOR.
     public BerthDto() {
     }
 
-    public BerthDto(Long id, String name, boolean availability, String location) {
-        this.id = id;
+    public BerthDto(String name, String location, boolean availability) {
         this.name = name;
-        this.availability = availability;
         this.location = location;
+        this.availability = availability;
     }
 
     // GETTERS & SETTERS.
@@ -35,19 +33,19 @@ public class BerthDto {
         this.name = name;
     }
 
-    public boolean isAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
-    }
-
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 }

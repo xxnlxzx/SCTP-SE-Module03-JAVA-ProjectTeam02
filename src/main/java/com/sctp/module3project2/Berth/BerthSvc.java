@@ -1,10 +1,6 @@
-package com.sctp.module3project2.services;
+package com.sctp.module3project2.Berth;
 
 import org.springframework.stereotype.Service;
-
-import com.sctp.module3project2.dto.BerthDto;
-import com.sctp.module3project2.entities.Berth;
-import com.sctp.module3project2.repositories.BerthRepo;
 
 import java.util.ArrayList;
 import java.util.List;

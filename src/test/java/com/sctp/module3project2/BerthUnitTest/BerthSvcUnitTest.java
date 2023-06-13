@@ -1,9 +1,10 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.dto.BerthDto;
-import com.sctp.module3project2.entities.Berth;
-import com.sctp.module3project2.repositories.BerthRepo;
-import com.sctp.module3project2.services.BerthSvc;
+import com.sctp.module3project2.Berth.Berth;
+import com.sctp.module3project2.Berth.BerthDto;
+import com.sctp.module3project2.Berth.BerthRepo;
+import com.sctp.module3project2.Berth.BerthSvc;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

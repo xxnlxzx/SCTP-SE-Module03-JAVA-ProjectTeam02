@@ -1,12 +1,8 @@
-package com.sctp.module3project2.controllers;
+package com.sctp.module3project2.Berth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.sctp.module3project2.dto.BerthDto;
-import com.sctp.module3project2.entities.Berth;
-import com.sctp.module3project2.services.BerthSvc;
 
 import java.util.List;
 

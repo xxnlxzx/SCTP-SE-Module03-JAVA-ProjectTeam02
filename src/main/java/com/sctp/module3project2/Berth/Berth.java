@@ -1,4 +1,4 @@
-package com.sctp.module3project2.entities;
+package com.sctp.module3project2.Berth;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

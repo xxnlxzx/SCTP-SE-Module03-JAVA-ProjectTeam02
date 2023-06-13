@@ -1,9 +1,9 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.controllers.BerthCtrl;
-import com.sctp.module3project2.dto.BerthDto;
-import com.sctp.module3project2.entities.Berth;
-import com.sctp.module3project2.services.BerthSvc;
+import com.sctp.module3project2.Berth.Berth;
+import com.sctp.module3project2.Berth.BerthCtrl;
+import com.sctp.module3project2.Berth.BerthDto;
+import com.sctp.module3project2.Berth.BerthSvc;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

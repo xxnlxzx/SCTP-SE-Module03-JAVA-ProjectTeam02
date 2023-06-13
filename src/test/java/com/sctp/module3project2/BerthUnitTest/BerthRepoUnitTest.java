@@ -1,7 +1,8 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.entities.Berth;
-import com.sctp.module3project2.repositories.BerthRepo;
+import com.sctp.module3project2.Berth.Berth;
+import com.sctp.module3project2.Berth.BerthRepo;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

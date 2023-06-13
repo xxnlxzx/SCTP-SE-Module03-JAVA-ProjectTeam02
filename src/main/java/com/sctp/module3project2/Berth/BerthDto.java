@@ -1,4 +1,4 @@
-package com.sctp.module3project2.dto;
+package com.sctp.module3project2.Berth;
 
 // DATA TRANSFER OBJECTS.
 public class BerthDto {

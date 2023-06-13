@@ -2,7 +2,7 @@ package com.sctp.module3project2.BerthUnitTest;
 
 import org.junit.jupiter.api.Test;
 
-import com.sctp.module3project2.Berth.Berth;
+import com.sctp.module3project2.entity.Berth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

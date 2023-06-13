@@ -1,4 +1,4 @@
-package com.sctp.module3project2.Berth;
+package com.sctp.module3project2.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+// Update by Farhan - Added @Entity..e.g
 @Entity
 @Table(name = "berth", schema = "public")
 public class Berth {

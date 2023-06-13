@@ -1,9 +1,9 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.Berth.Berth;
-import com.sctp.module3project2.Berth.BerthDto;
-import com.sctp.module3project2.Berth.BerthRepo;
-import com.sctp.module3project2.Berth.BerthSvc;
+import com.sctp.module3project2.datatransferobject.BerthDto;
+import com.sctp.module3project2.entity.Berth;
+import com.sctp.module3project2.repository.BerthRepository;
+import com.sctp.module3project2.services.BerthService;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,10 +21,10 @@ import static org.mockito.Mockito.*;
 class BerthSvcTest {
 
     @Mock
-    private BerthRepo repository;
+    private BerthRepository repository;
 
     @InjectMocks
-    private BerthSvc service;
+    private BerthService service;
 
     public BerthSvcTest() {
         MockitoAnnotations.openMocks(this);

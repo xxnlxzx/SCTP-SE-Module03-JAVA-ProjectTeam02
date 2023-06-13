@@ -1,15 +1,19 @@
-package com.sctp.module3project2.Berth;
+package com.sctp.module3project2.services;
 
 import org.springframework.stereotype.Service;
+
+import com.sctp.module3project2.datatransferobject.BerthDto;
+import com.sctp.module3project2.entity.Berth;
+import com.sctp.module3project2.repository.BerthRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BerthSvc {
-    private final BerthRepo repository;
+public class BerthService {
+    private final BerthRepository repository;
 
-    public BerthSvc(BerthRepo repository) {
+    public BerthService(BerthRepository repository) {
         this.repository = repository;
     }
 

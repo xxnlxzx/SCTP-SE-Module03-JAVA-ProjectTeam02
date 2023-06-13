@@ -1,9 +1,9 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.Berth.Berth;
-import com.sctp.module3project2.Berth.BerthCtrl;
-import com.sctp.module3project2.Berth.BerthDto;
-import com.sctp.module3project2.Berth.BerthSvc;
+import com.sctp.module3project2.controller.BerthCtrl;
+import com.sctp.module3project2.datatransferobject.BerthDto;
+import com.sctp.module3project2.entity.Berth;
+import com.sctp.module3project2.services.BerthService;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 class BerthCtrlUnitTest {
 
     @Mock
-    private BerthSvc service;
+    private BerthService service;
 
     @InjectMocks
     private BerthCtrl controller;

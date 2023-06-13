@@ -1,7 +1,7 @@
 package com.sctp.module3project2.BerthUnitTest;
 
-import com.sctp.module3project2.Berth.Berth;
-import com.sctp.module3project2.Berth.BerthRepo;
+import com.sctp.module3project2.entity.Berth;
+import com.sctp.module3project2.repository.BerthRepository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class BerthRepoTest {
 
     @Autowired
-    private BerthRepo berthRepo;
+    private BerthRepository berthRepo;
 
     @Test
     void testSaveBerth() {

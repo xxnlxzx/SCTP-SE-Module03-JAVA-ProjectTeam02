@@ -1,7 +1,0 @@
-com/sctp/module3project2/services/BerthSvc.class
-com/sctp/module3project2/entities/Berth.class
-com/sctp/module3project2/HarbourBookingSystemApplication.class
-com/sctp/module3project2/dto/BerthDto.class
-com/sctp/module3project2/controllers/BerthCtrl.class
-com/sctp/module3project2/repositories/BerthRepo.class
-com/sctp/module3project2/GlobalExceptionHandler.class

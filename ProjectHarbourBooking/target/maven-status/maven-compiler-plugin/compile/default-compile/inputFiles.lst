@@ -1,7 +1,0 @@
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/HarbourBookingSystemApplication.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/services/BerthSvc.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/dto/BerthDto.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/repositories/BerthRepo.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/controllers/BerthCtrl.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/GlobalExceptionHandler.java
-/home/xxnlxzx/Documents/SCTP/Module3/Module3-Projects/ProjectHarbourBooking/src/main/java/com/sctp/module3project2/entities/Berth.java

@@ -47,7 +47,13 @@ public class BookingServiceImpl implements BookingService {
             throw new BookingNotFoundException("Booking not found");
         }
         // fill in when other fields are added
-        return bookingRepository.save(foundBooking.get());
+        Booking bookingToUpdate = foundBooking.get();
+
+        bookingToUpdate.setRemarks(booking.getRemarks());
+        bookingToUpdate.setActivity(booking.getActivity());
+        bookingToUpdate.setCreated_at(booking.getCreated_at());
+
+        return bookingRepository.save(bookingToUpdate);
     }
 
     @Override

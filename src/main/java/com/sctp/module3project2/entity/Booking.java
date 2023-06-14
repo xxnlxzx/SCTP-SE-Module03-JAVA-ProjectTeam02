@@ -1,5 +1,7 @@
 package com.sctp.module3project2.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,37 +52,37 @@ public class Booking {
         this.id = id;
     }
 
-    public Vessel getVessel() {
-        return vessel;
-    }
+    // public Vessel getVessel() {
+    //     return vessel;
+    // }
 
-    public void setVessel(Vessel vessel) {
-        this.vessel = vessel;
-    }
+    // public void setVessel(Vessel vessel) {
+    //     this.vessel = vessel;
+    // }
 
-    public Berth getBerth() {
-        return berth;
-    }
+    // public Berth getBerth() {
+    //     return berth;
+    // }
 
-    public void setBerth(Berth berth) {
-        this.berth = berth;
-    }
+    // public void setBerth(Berth berth) {
+    //     this.berth = berth;
+    // }
 
-    public ShippingRoute getShippingRoute() {
-        return shippingRoute;
-    }
+    // public ShippingRoute getShippingRoute() {
+    //     return shippingRoute;
+    // }
 
-    public void setShippingRoute(ShippingRoute shippingRoute) {
-        this.shippingRoute = shippingRoute;
-    }
+    // public void setShippingRoute(ShippingRoute shippingRoute) {
+    //     this.shippingRoute = shippingRoute;
+    // }
 
-    public DateTime getDateTime() {
-        return dateTime;
-    }
+    // public DateTime getDateTime() {
+    //     return dateTime;
+    // }
 
-    public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
-    }
+    // public void setDateTime(DateTime dateTime) {
+    //     this.dateTime = dateTime;
+    // }
 
     public Date getCreated_at() {
         return created_at;

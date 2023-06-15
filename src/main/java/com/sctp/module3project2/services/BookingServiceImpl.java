@@ -51,7 +51,7 @@ public class BookingServiceImpl implements BookingService {
 
         bookingToUpdate.setRemarks(booking.getRemarks());
         bookingToUpdate.setActivity(booking.getActivity());
-        bookingToUpdate.setCreated_at(booking.getCreated_at());
+        // bookingToUpdate.setCreated_at(booking.getCreated_at());
 
         return bookingRepository.save(bookingToUpdate);
     }

@@ -35,14 +35,17 @@ public class Booking {
     // @OneToOne(mappedBy = "DateTime")
     // private DateTime dateTime;
 
-    @Column(name = "created_at", nullable=false)
-    private Date created_at;
+    // @Column(name = "created_at", nullable=false)
+    // private Date created_at;
 
     @Column(name = "activity" , nullable=false)
     private String activity;
 
     @Column(name = "remarks")
     private String remarks;
+
+    public Booking(int i, String string, String string2) {
+    }
 
     public Integer getId() {
         return id;
@@ -84,13 +87,13 @@ public class Booking {
     //     this.dateTime = dateTime;
     // }
 
-    public Date getCreated_at() {
-        return created_at;
-    }
+    // public Date getCreated_at() {
+    //     return created_at;
+    // }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
+    // public void setCreated_at(Date created_at) {
+    //     this.created_at = created_at;
+    // }
 
     public String getActivity() {
         return activity;

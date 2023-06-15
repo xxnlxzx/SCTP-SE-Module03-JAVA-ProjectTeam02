@@ -31,7 +31,7 @@ public class BookingServiceImplTest {
 
     @Test
     public void createBookingTest() {
-        Booking booking = new Booking();
+        Booking booking = new Booking(1, "activity", "remarks");
 
         when(bookingRepository.save(booking)).thenReturn(booking);
 
@@ -43,7 +43,7 @@ public class BookingServiceImplTest {
 
     @Test
     public void getBookingTest() {
-        Booking booking = new Booking();
+        Booking booking = new Booking(1, "activity", "remarks");
         booking.setId(1);
 
         when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
@@ -56,8 +56,8 @@ public class BookingServiceImplTest {
 
     @Test
     public void getAllBookingsTest() {
-        Booking booking1 = new Booking();
-        Booking booking2 = new Booking();
+        Booking booking1 = new Booking(1, "activity", "remarks");
+        Booking booking2 = new Booking(2, "activity", "remarks");
 
         List<Booking> bookings = new ArrayList<>();
         bookings.add(booking1);

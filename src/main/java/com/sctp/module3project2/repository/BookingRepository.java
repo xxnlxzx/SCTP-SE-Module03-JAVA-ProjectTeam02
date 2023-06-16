@@ -5,5 +5,5 @@ import com.sctp.module3project2.entity.Booking;
 
 // Joel
 
-public interface BookingRepository extends JpaRepository<Booking, Integer>{
+public interface BookingRepository extends JpaRepository<Booking, Long>{
 }

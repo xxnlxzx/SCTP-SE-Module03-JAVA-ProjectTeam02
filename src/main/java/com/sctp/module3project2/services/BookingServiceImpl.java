@@ -25,7 +25,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking getBooking(int id) {
+    public Booking getBooking(Long id) {
         Optional<Booking> foundBooking = bookingRepository.findById(id);
         if (!foundBooking.isPresent()){
             throw new BookingNotFoundException("Booking not found");
@@ -41,7 +41,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking updateBooking(int id, Booking booking) {
+    public Booking updateBooking(Long id, Booking booking) {
         Optional<Booking> foundBooking = bookingRepository.findById(id);
         if (!foundBooking.isPresent()){
             throw new BookingNotFoundException("Booking not found");
@@ -51,13 +51,15 @@ public class BookingServiceImpl implements BookingService {
 
         bookingToUpdate.setRemarks(booking.getRemarks());
         bookingToUpdate.setActivity(booking.getActivity());
+        bookingToUpdate.setBerth(booking.getBerth());
+        bookingToUpdate.setBookingDateTime(booking.getBookingDateTime());
         // bookingToUpdate.setCreated_at(booking.getCreated_at());
 
         return bookingRepository.save(bookingToUpdate);
     }
 
     @Override
-    public void deleteBooking(int id) {
+    public void deleteBooking(Long id) {
         bookingRepository.deleteById(id);
     }
 

@@ -1,12 +1,13 @@
 package com.sctp.module3project2.entity;
 
-import java.util.Date;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,22 +22,24 @@ public class Booking {
     @Id
     @Column(name = "id", nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "booking_datetime_id", referencedColumnName = "id")
+    private BookingDateTime bookingDateTime;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "berth_id", referencedColumnName = "id")
+    private Berth berth;
 
     // @OneToOne(mappedBy = "Vessel")
     // private Vessel vessel;
 
-    // @OneToOne(mappedBy = "berth")
-    // private Berth berth;
 
     // @OneToOne(mappedBy = "ShippingRoute")
     // private ShippingRoute shippingRoute;
 
-    // @OneToOne(mappedBy = "DateTime")
-    // private DateTime dateTime;
-
-    // @Column(name = "created_at", nullable=false)
-    // private Date created_at;
+   
 
     @Column(name = "activity" , nullable=false)
     private String activity;
@@ -44,14 +47,23 @@ public class Booking {
     @Column(name = "remarks")
     private String remarks;
 
-    public Booking(int i, String string, String string2) {
+    public Booking() {
+    }
+    
+
+    public Booking(Long id, BookingDateTime bookingDateTime, Berth berth, String activity, String remarks) {
+        this.id = id;
+        this.bookingDateTime = bookingDateTime;
+        this.berth = berth;
+        this.activity = activity;
+        this.remarks = remarks;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -111,5 +123,20 @@ public class Booking {
         this.remarks = remarks;
     }
 
+    public BookingDateTime getBookingDateTime() {
+        return bookingDateTime;
+    }
+
+    public void setBookingDateTime(BookingDateTime bookingDateTime) {
+        this.bookingDateTime = bookingDateTime;
+    }
+
+    public Berth getBerth() {
+        return berth;
+    }
+
+    public void setBerth(Berth berth) {
+        this.berth = berth;
+    }
     
 }

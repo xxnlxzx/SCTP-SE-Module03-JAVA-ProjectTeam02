@@ -14,9 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.sctp.module3project2.entity.Berth;
 import com.sctp.module3project2.entity.Booking;
+import com.sctp.module3project2.entity.BookingDateTime;
 import com.sctp.module3project2.repository.BookingRepository;
 import com.sctp.module3project2.services.BookingServiceImpl;
+
 
 // Joel
 
@@ -31,7 +34,11 @@ public class BookingServiceImplTest {
 
     @Test
     public void createBookingTest() {
-        Booking booking = new Booking(1, "activity", "remarks");
+        BookingDateTime bookingDateTime = new BookingDateTime((long) 1, "2023-04-01", "12:00");
+
+        Berth berth = new Berth((long)1, "berth1", "east", true);
+
+        Booking booking = new Booking((long)1, bookingDateTime, berth,  "activity", "remarks");
 
         when(bookingRepository.save(booking)).thenReturn(booking);
 
@@ -43,32 +50,39 @@ public class BookingServiceImplTest {
 
     @Test
     public void getBookingTest() {
-        Booking booking = new Booking(1, "activity", "remarks");
-        booking.setId(1);
+        BookingDateTime bookingDateTime = new BookingDateTime((long) 1, "2023-04-01", "12:00");
 
-        when(bookingRepository.findById(1)).thenReturn(Optional.of(booking));
+        Berth berth = new Berth((long)1, "berth1", "east", true);
+        
+        Booking booking = new Booking((long)1, bookingDateTime, berth,  "activity", "remarks");
+        booking.setId((long) 1);
 
-        Booking foundBooking = bookingService.getBooking(1);
+        when(bookingRepository.findById((long) 1)).thenReturn(Optional.of(booking));
 
-        verify(bookingRepository, times(1)).findById(1);
+        Booking foundBooking = bookingService.getBooking((long) 1);
+
+        verify(bookingRepository, times(1)).findById((long) 1);
         assertEquals(booking, foundBooking);
     }
 
     @Test
     public void getAllBookingsTest() {
-        Booking booking1 = new Booking(1, "activity", "remarks");
-        Booking booking2 = new Booking(2, "activity", "remarks");
+        BookingDateTime bookingDateTime = new BookingDateTime((long) 1, "2023-04-01", "12:00");
+
+        Berth berth = new Berth((long)1, "berth1", "east", true);
+
+        Booking booking = new Booking((long)1, bookingDateTime, berth,  "activity", "remarks");
+        
 
         List<Booking> bookings = new ArrayList<>();
-        bookings.add(booking1);
-        bookings.add(booking2);
+        bookings.add(booking);
 
         when(bookingRepository.findAll()).thenReturn(bookings);
 
        ArrayList<Booking> allBookings = bookingService.getAllBookings();
 
         verify(bookingRepository, times(1)).findAll();
-        assertEquals(2, allBookings.size());
+        assertEquals(1, allBookings.size());
     }
 }
         

@@ -11,11 +11,11 @@ public interface BookingService {
     
     Booking saveBooking(Booking booking);
 
-    Booking getBooking(int id);
+    Booking getBooking(Long id);
 
     ArrayList<Booking> getAllBookings();
 
-    Booking updateBooking(int id, Booking booking);
+    Booking updateBooking(Long id, Booking booking);
 
-    void deleteBooking(int id);
+    void deleteBooking(Long id);
 }

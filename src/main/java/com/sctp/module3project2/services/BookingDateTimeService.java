@@ -10,4 +10,6 @@ public interface BookingDateTimeService {
   public List<Booking> getAllBookingsWithDateTime();
   public Booking getBookingWithDateTime(Long id);
   public Booking updateBookingWithDateTime(Long id, Booking booking);
+
 }
+

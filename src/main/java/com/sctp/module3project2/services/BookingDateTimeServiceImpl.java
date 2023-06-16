@@ -64,14 +64,16 @@ public class BookingDateTimeServiceImpl implements BookingDateTimeService {
     // Unwrap it
     Booking bookingWithDateTimeToUpdate = wrappedBookingWithDateTimeToUpdate.get();
 
-    BookingDateTime datetimeInfo = bookingData.getDatetime();
+    BookingDateTime datetimeInfo = bookingData.getBookingDateTime();
+
     BookingDateTime datetime = new BookingDateTime(); 
     datetime.setBookdate(datetimeInfo.getBookdate());
     datetime.setBooktime(datetimeInfo.getBooktime());
-    
-    bookingWithDateTimeToUpdate.setVessel(bookingData.getVessel());
-    bookingWithDateTimeToUpdate.getDatetime().setBookdate(datetime.getBookdate());      
-    bookingWithDateTimeToUpdate.getDatetime().setBooktime(datetime.getBooktime());
+
+    // bookingWithDateTimeToUpdate.setVessel(bookingData.getVessel());
+    bookingWithDateTimeToUpdate.getBookingDateTime().setBookdate(datetime.getBookdate());      
+    bookingWithDateTimeToUpdate.getBookingDateTime().setBooktime(datetime.getBooktime());
+
     
     return bookingRepository.save(bookingWithDateTimeToUpdate);
   }

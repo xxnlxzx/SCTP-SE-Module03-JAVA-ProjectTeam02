@@ -35,11 +35,14 @@ public class Berth {
     public Berth() {
     }
 
-    public Berth(String name, String location, boolean availability) {
+    public Berth(Long id, String name, String location, boolean availability) {
+        this.id = id;
         this.name = name;
         this.location = location;
         this.availability = availability;
     }
+
+  
 
     // GETTERS AND SETTERS.
     public Long getId() {

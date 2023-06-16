@@ -32,6 +32,14 @@ public class BookingDateTime {
   public BookingDateTime() {
   }
 
+
+    public BookingDateTime(Long i, String bookdate, String booktime) {
+        this.id = i;
+        this.bookdate = bookdate;
+        this.booktime = booktime;
+    }
+
+
   public Long getId() {
     return id;
   }

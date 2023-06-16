@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sctp.module3project2.services.BookingDateTimeService;
 import com.sctp.module3project2.entity.Booking;
 
+
 @RequestMapping("api/booking/datetime")
+
 @RestController
 public class BookingDateTimeController {
 
@@ -58,4 +60,4 @@ public class BookingDateTimeController {
     return new ResponseEntity<>(updatedBookingWithDateTime, HttpStatus.OK);
 
   }
-}
+

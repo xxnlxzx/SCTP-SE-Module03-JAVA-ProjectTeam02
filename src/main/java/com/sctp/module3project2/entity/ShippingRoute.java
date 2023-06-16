@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
 
 // Updated by Wei Kang
 @Entity
@@ -32,18 +35,19 @@ public class ShippingRoute {
     @Column(name = "tax_fees_port_expenses")
     private double tax_fees_port_expenses;
 
-    // @Column(name = "vessel")
-    // private Berth berth;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    private Vessel vessel;
 
-    // public Berth getBerth() {
-    //     return berth;
-    // }
+    public Vessel getVessel() {
+        return vessel;
+    }
 
-    // public void setBerth(Berth berth) {
-    //     this.berth = berth;
-    // }
+    public void setVessel(Vessel vessel) {
+        this.vessel = vessel;
+    }
 
-
+    
     public Integer getId() {
         return id;
     }

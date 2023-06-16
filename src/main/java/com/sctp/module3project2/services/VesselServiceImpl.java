@@ -3,7 +3,9 @@ package com.sctp.module3project2.services;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sctp.module3project2.entity.ShippingRoute;
 import com.sctp.module3project2.entity.Vessel;
+import com.sctp.module3project2.repository.ShippingRouteRepository;
 import com.sctp.module3project2.repository.VesselRepository;
 
 import java.util.Optional;
@@ -13,10 +15,12 @@ import java.util.List;
 public class VesselServiceImpl implements VesselService {
 
     private final VesselRepository vesselRepository;
+    private final ShippingRouteRepository shippingRouteRepository;
 
 
-    public VesselServiceImpl(VesselRepository vesselRepository) {
+    public VesselServiceImpl(VesselRepository vesselRepository, ShippingRouteRepository shippingRouteRepository) {
         this.vesselRepository = vesselRepository;
+        this.shippingRouteRepository = shippingRouteRepository;
     }
 
     @Override
@@ -51,6 +55,19 @@ public class VesselServiceImpl implements VesselService {
     @Override
     public void deleteVessel(Long id) {
         vesselRepository.deleteById(id);
+    }
+
+    @Override
+    public ShippingRoute addShippingRouteToVessel(Long id, ShippingRoute ShippingRoute) {
+        Optional<Vessel> wrappedVessel = vesselRepository.findById(id);
+        if (!wrappedVessel.isPresent()){
+            throw new IllegalArgumentException("Vessel not Found with ID: "+ id);
+        }
+
+        Vessel selectedVessel = wrappedVessel.get();
+
+        ShippingRoute.setVessel(selectedVessel);
+        return shippingRouteRepository.save(ShippingRoute);
     }
     
 

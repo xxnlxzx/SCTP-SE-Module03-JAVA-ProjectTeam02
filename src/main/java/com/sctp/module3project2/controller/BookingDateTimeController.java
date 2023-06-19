@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sctp.module3project2.services.BookingDateTimeService;
 import com.sctp.module3project2.entity.Booking;
 
-@RequestMapping("/booking/datetime")
+@RequestMapping("api/booking/datetime")
+
 @RestController
 public class BookingDateTimeController {
 
   @Autowired
   private BookingDateTimeService dateTimeService;
 
-
   @PostMapping("/create")
   public ResponseEntity<Booking> saveBooking(@RequestBody Booking bookingData) {
-   
+
     Booking newBooking = dateTimeService.createBookingWithDateTime(bookingData);
     return new ResponseEntity<Booking>(newBooking, HttpStatus.CREATED);
 
@@ -39,7 +39,7 @@ public class BookingDateTimeController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-   @GetMapping("")
+  @GetMapping("")
   public ResponseEntity<List<Booking>> getAllBookingsWithDateTime() {
 
     List<Booking> allBookingsWithDateTime = dateTimeService.getAllBookingsWithDateTime();

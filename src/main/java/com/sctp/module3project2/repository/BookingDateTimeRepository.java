@@ -7,3 +7,4 @@ import com.sctp.module3project2.entity.BookingDateTime;
 public interface BookingDateTimeRepository extends JpaRepository<BookingDateTime, Long>{
   
 }
+

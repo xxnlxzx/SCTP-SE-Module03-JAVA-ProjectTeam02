@@ -9,7 +9,15 @@ public interface UseridService {
 
     ArrayList<Userid> getAllUserid();
 
+    Userid findUserIdById(int id);
+
+    Userid updateUserid(int id, Userid userid);
+
+    void deleteUserid(int id);
+
     Userid findUserByUserID(String userid);
 
     String findPassWordByUserID(String userid);
+    
+    void verifyPassword(String userid, String password);
 }

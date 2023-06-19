@@ -3,6 +3,7 @@ package com.sctp.module3project2.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.sctp.module3project2.entity.ShippingRoute;
 import com.sctp.module3project2.entity.Vessel;
 // Edited by Afif
 public interface VesselService {
@@ -11,6 +12,7 @@ public interface VesselService {
     Optional <Vessel> findById(Long id);
     Vessel updateVessel(Long id);
     void deleteVessel(Long id);
+    ShippingRoute addShippingRouteToVessel(Long id, ShippingRoute ShippingRoute);
     
     
 }

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
+import com.sctp.module3project2.entity.Berth;
 import com.sctp.module3project2.entity.Booking;
+import com.sctp.module3project2.entity.BookingDateTime;
 import com.sctp.module3project2.exception.BookingNotFoundException;
 import com.sctp.module3project2.repository.BookingRepository;
 
@@ -51,9 +54,29 @@ public class BookingServiceImpl implements BookingService {
 
         bookingToUpdate.setRemarks(booking.getRemarks());
         bookingToUpdate.setActivity(booking.getActivity());
-        bookingToUpdate.setBerth(booking.getBerth());
-        bookingToUpdate.setBookingDateTime(booking.getBookingDateTime());
-        // bookingToUpdate.setCreated_at(booking.getCreated_at());
+        
+      
+        // // bookingToUpdate.setCreated_at(booking.getCreated_at());
+        BookingDateTime datetimeInfo = booking.getBookingDateTime();
+
+        BookingDateTime datetime = new BookingDateTime(); 
+        datetime.setBookdate(datetimeInfo.getBookdate());
+        datetime.setBooktime(datetimeInfo.getBooktime());
+        // bookingToUpdate.setBookingDateTime(booking.getBookingDateTime());
+        bookingToUpdate.getBookingDateTime().setBookdate(datetime.getBookdate());      
+        bookingToUpdate.getBookingDateTime().setBooktime(datetime.getBooktime());
+
+        Berth berthInfo = booking.getBerth();
+
+        Berth berth = new Berth();
+        berth.setName(berthInfo.getName());
+        berth.setLocation(berthInfo.getLocation());
+        berth.setAvailability(berthInfo.isAvailability());
+        // bookingToUpdate.setBerth(booking.getBerth());
+
+        bookingToUpdate.getBerth().setName(berth.getName());
+        bookingToUpdate.getBerth().setLocation(berth.getLocation());
+        bookingToUpdate.getBerth().setAvailability(berth.isAvailability());
 
         return bookingRepository.save(bookingToUpdate);
     }

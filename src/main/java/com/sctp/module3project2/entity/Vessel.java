@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 // Updated by Afif
 @Entity
@@ -26,6 +27,9 @@ public class Vessel {
     
     @OneToMany(mappedBy = "vessel")
     private List<ShippingRoute> shippingRoute;
+
+     @OneToOne(mappedBy = "vessel")
+    private Booking booking;
     
     public Vessel() {
     }
@@ -70,8 +74,22 @@ public class Vessel {
     public void setType(String type) {
         this.type = type;
     }
-     
 
+      public List<ShippingRoute> getShippingRoute() {
+        return shippingRoute;
+    }
+
+    public void setShippingRoute(List<ShippingRoute> shippingRoute) {
+        this.shippingRoute = shippingRoute;
+    }
+     
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
     
     
    

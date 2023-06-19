@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.sctp.module3project2.entity.ShippingRoute;
 import com.sctp.module3project2.entity.Vessel;
 import com.sctp.module3project2.services.VesselService;
 
@@ -14,10 +15,10 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/vessels")
 public class VesselController {
-    private final VesselService vesselService;
+    private final VesselService vesselService; 
 
-public VesselController(VesselService vesselService){
-    this.vesselService = vesselService;
+public VesselController(VesselService vesselService ) 
+    {this.vesselService = vesselService;
 }
 
 @GetMapping
@@ -40,7 +41,7 @@ public ResponseEntity<Vessel> saveVessel(@RequestBody Vessel vessel){
 
 @PutMapping("/{id}")
 public ResponseEntity<Vessel> updateVessel(@PathVariable Long id, @RequestBody Vessel vessel){
-    Vessel updatedVessel = vesselService.updateVessel(id);
+    Vessel updatedVessel = vesselService.updateVessel(id, vessel);
     return new ResponseEntity<>(updatedVessel, HttpStatus.OK);
 }
 
@@ -48,7 +49,11 @@ public ResponseEntity<Vessel> updateVessel(@PathVariable Long id, @RequestBody V
 public ResponseEntity<HttpStatus> deleteVessel(@PathVariable("id") Long id) {
     vesselService.deleteVessel(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+}
 
-
+@PostMapping("/{id}/shippingroute")
+public ResponseEntity<ShippingRoute> addShippingRouteToVessel(@PathVariable Long id, @RequestBody ShippingRoute shippingRoute){
+    ShippingRoute newShippingRoute = vesselService.addShippingRouteToVessel(id, shippingRoute);
+    return new ResponseEntity<>(newShippingRoute, HttpStatus.OK);
+}
 }

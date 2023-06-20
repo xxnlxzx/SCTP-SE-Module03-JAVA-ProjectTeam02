@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.sctp.module3project2.entity.Berth;
 import com.sctp.module3project2.entity.Booking;
 import com.sctp.module3project2.entity.BookingDateTime;
+import com.sctp.module3project2.entity.Vessel;
 import com.sctp.module3project2.exception.BookingNotFoundException;
 import com.sctp.module3project2.repository.BookingRepository;
 
@@ -56,7 +57,6 @@ public class BookingServiceImpl implements BookingService {
         bookingToUpdate.setActivity(booking.getActivity());
         
       
-        // // bookingToUpdate.setCreated_at(booking.getCreated_at());
         BookingDateTime datetimeInfo = booking.getBookingDateTime();
 
         BookingDateTime datetime = new BookingDateTime(); 
@@ -77,6 +77,15 @@ public class BookingServiceImpl implements BookingService {
         bookingToUpdate.getBerth().setName(berth.getName());
         bookingToUpdate.getBerth().setLocation(berth.getLocation());
         bookingToUpdate.getBerth().setAvailability(berth.isAvailability());
+
+        Vessel vesselInfo = booking.getVessel();
+        Vessel vessel = new Vessel();
+        vessel.setName(vesselInfo.getName());
+        vessel.setType(vesselInfo.getType());
+        vessel.setShippingRoutes(vesselInfo.getShippingRoutes());
+        bookingToUpdate.getVessel().setName(vessel.getName());
+        bookingToUpdate.getVessel().setType(vessel.getType());
+        bookingToUpdate.getVessel().setShippingRoutes(vessel.getShippingRoutes());
 
         return bookingRepository.save(bookingToUpdate);
     }

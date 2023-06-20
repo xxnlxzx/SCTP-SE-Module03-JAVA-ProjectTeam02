@@ -3,6 +3,7 @@ package com.sctp.module3project2.controller;
 import java.util.ArrayList;
 // import java.util.HashMap;
 // import java.util.Map;
+import java.util.List;
 
 import javax.naming.AuthenticationException;
 
@@ -81,7 +82,7 @@ public class ShippingRouteController {
         if (!(passwordSystem.equals(password))){
             throw new AuthenticationException("Username/Password authentication not accepted");
         }
-        ArrayList<ShippingRoute> allShippingRoute = shippingRouteService.getAllShippingRoutes();
+        ArrayList<ShippingRoute> allShippingRoute = (ArrayList<ShippingRoute>) shippingRouteService.getAllShippingRoutes();
         return new ResponseEntity<>(allShippingRoute, HttpStatus.OK);
     }
 

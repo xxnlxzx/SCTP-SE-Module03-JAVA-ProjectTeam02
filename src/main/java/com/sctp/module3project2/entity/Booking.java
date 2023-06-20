@@ -35,8 +35,9 @@ public class Booking {
     @JoinColumn(name = "berth_id", referencedColumnName = "id")
     private Berth berth;
 
-    // @OneToOne(mappedBy = "Vessel")
-    // private Vessel vessel;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    private Vessel vessel;
 
 
     // @OneToOne(mappedBy = "ShippingRoute")
@@ -54,10 +55,11 @@ public class Booking {
     }
     
 
-    public Booking(Long id, BookingDateTime bookingDateTime, Berth berth, String activity, String remarks) {
+    public Booking(Long id, BookingDateTime bookingDateTime, Berth berth, Vessel vessel, String activity, String remarks) {
         this.id = id;
         this.bookingDateTime = bookingDateTime;
         this.berth = berth;
+        this.vessel = vessel;
         this.activity = activity;
         this.remarks = remarks;
     }
@@ -70,46 +72,8 @@ public class Booking {
         this.id = id;
     }
 
-    // public Vessel getVessel() {
-    //     return vessel;
-    // }
 
-    // public void setVessel(Vessel vessel) {
-    //     this.vessel = vessel;
-    // }
-
-    // public Berth getBerth() {
-    //     return berth;
-    // }
-
-    // public void setBerth(Berth berth) {
-    //     this.berth = berth;
-    // }
-
-    // public ShippingRoute getShippingRoute() {
-    //     return shippingRoute;
-    // }
-
-    // public void setShippingRoute(ShippingRoute shippingRoute) {
-    //     this.shippingRoute = shippingRoute;
-    // }
-
-    // public DateTime getDateTime() {
-    //     return dateTime;
-    // }
-
-    // public void setDateTime(DateTime dateTime) {
-    //     this.dateTime = dateTime;
-    // }
-
-    // public Date getCreated_at() {
-    //     return created_at;
-    // }
-
-    // public void setCreated_at(Date created_at) {
-    //     this.created_at = created_at;
-    // }
-
+   
     public String getActivity() {
         return activity;
     }
@@ -140,6 +104,16 @@ public class Booking {
 
     public void setBerth(Berth berth) {
         this.berth = berth;
+    }
+
+
+    public Vessel getVessel() {
+        return vessel;
+    }
+
+
+    public void setVessel(Vessel vessel) {
+        this.vessel = vessel;
     }
     
 

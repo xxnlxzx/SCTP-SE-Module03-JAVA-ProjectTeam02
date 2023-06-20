@@ -4,11 +4,21 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 // Updated by Wei Kang
 @Entity
@@ -32,18 +42,39 @@ public class ShippingRoute {
     @Column(name = "tax_fees_port_expenses")
     private double tax_fees_port_expenses;
 
-    // @Column(name = "vessel")
-    // private Berth berth;
+    @JsonBackReference
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    private Vessel vessel;
 
-    // public Berth getBerth() {
-    //     return berth;
-    // }
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "vessel_id", referencedColumnName = "id", nullable = false)
+    // @OnDelete(action = OnDeleteAction.CASCADE)
+    // @JsonIgnore
+    // private Vessel vessel;
 
-    // public void setBerth(Berth berth) {
-    //     this.berth = berth;
-    // }
+    public ShippingRoute() {
+    }
 
+    public ShippingRoute(Integer id, String port, LocalDate date_of_arrival, String purpose_of_travel,
+            double tax_fees_port_expenses, Vessel vessel) {
+        this.id = id;
+        this.port = port;
+        this.date_of_arrival = date_of_arrival;
+        this.purpose_of_travel = purpose_of_travel;
+        this.tax_fees_port_expenses = tax_fees_port_expenses;
+        this.vessel = vessel;
+    }
 
+    public Vessel getVessel() {
+        return vessel;
+    }
+
+    public void setVessel(Vessel vessel) {
+        this.vessel = vessel;
+    }
+
+    
     public Integer getId() {
         return id;
     }

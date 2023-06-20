@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 // Updated by Wei Kang
@@ -35,9 +42,16 @@ public class ShippingRoute {
     @Column(name = "tax_fees_port_expenses")
     private double tax_fees_port_expenses;
 
+    @JsonBackReference
     @ManyToOne(optional = true)
     @JoinColumn(name = "vessel_id", referencedColumnName = "id")
     private Vessel vessel;
+
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "vessel_id", referencedColumnName = "id", nullable = false)
+    // @OnDelete(action = OnDeleteAction.CASCADE)
+    // @JsonIgnore
+    // private Vessel vessel;
 
     public Vessel getVessel() {
         return vessel;

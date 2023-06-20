@@ -171,7 +171,7 @@ public class BookingServiceImplTest {
 
         // test update booking
         when(bookingRepository.findById((long) 1)).thenReturn(Optional.of(booking));
-        BookingDateTime bookingDateTime2 = new BookingDateTime((long) 1, "2023-04-01", "12:00");
+        BookingDateTime bookingDateTime2 = new BookingDateTime((long) 1, "2023-04-01", "13:00");
 
         Berth berth2 = new Berth((long)1, "berth1", "east", true);
 
@@ -187,10 +187,16 @@ public class BookingServiceImplTest {
         shippingRoute2.setDate_of_arrival(LocalDate.of(2023,06,11));
         shippingRoute2.setPurpose_of_travel("visit");
         shippingRoute2.setTax_fees_port_expenses(0.0);
-
+        ShippingRoute shippingRoute5 = new ShippingRoute();
+        shippingRoute5.setId(3);
+        shippingRoute5.setPort("Update");
+        shippingRoute5.setDate_of_arrival(LocalDate.of(2023,06,11));
+        shippingRoute5.setPurpose_of_travel("visit");
+        shippingRoute5.setTax_fees_port_expenses(0.0);
         List<ShippingRoute> shippingRoutes2 = new ArrayList<>();
         shippingRoutes.add(shippingRoute3);
         shippingRoutes.add(shippingRoute4);
+        shippingRoutes.add(shippingRoute5);
 
         Vessel vessel2 = new Vessel((long)1, "Update", "Large-class", shippingRoutes2);
 
@@ -202,9 +208,9 @@ public class BookingServiceImplTest {
 
         bookingService.updateBooking((long)1,booking);
         verify(bookingRepository, times(1)).save(booking);
-        assertEquals(shippingRoute1.getId(), 1);
-        assertEquals(shippingRoute1.getPort(), "Update");
-        assertEquals(berth2.getId(), 1);
+        assertEquals(booking.getVessel().getShippingRoutes().size(), 3);
+        assertEquals(booking.getBookingDateTime().getBooktime(), "13:00");
+        assertEquals(booking.getBerth().getId(), berth2.getId());
         assertEquals(booking.getActivity(), "Update");
         assertEquals(booking.getId(), 1);
     }

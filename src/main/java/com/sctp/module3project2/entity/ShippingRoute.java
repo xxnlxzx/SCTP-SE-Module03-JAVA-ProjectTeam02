@@ -48,6 +48,7 @@ public class ShippingRoute {
     @JsonBackReference
     @ManyToOne(optional = true)
     @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    // instantiate new vessel object to avoid null pointer exception
     private Vessel vessel = new Vessel();
 
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)

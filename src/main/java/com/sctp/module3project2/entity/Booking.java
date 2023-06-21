@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 // Joel
 // Will wait for other entities to be created first before continuing

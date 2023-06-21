@@ -1,6 +1,6 @@
 package com.sctp.module3project2.services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.sctp.module3project2.entity.ShippingRoute;
 
@@ -10,7 +10,7 @@ public interface ShippingRouteService {
 
     ShippingRoute getShippingRoute(int id);
 
-    ArrayList<ShippingRoute> getAllShippingRoutes();
+    List<ShippingRoute> getAllShippingRoutes();
 
     ShippingRoute updateShippingRoute(int id, ShippingRoute shippingRoute);
 

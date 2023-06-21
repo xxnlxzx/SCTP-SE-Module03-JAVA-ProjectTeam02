@@ -17,17 +17,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 // Edited by Afif
 @Entity
-@Table(name = "Vessel")
+@Table(name = "vessel")
 public class Vessel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "Name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "Type")
+    @Column(name = "type")
     private String type;
 
     @JsonManagedReference
@@ -103,4 +103,3 @@ public class Vessel {
     
    
 }
-

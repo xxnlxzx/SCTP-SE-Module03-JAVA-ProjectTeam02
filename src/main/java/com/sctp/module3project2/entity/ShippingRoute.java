@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "ShippingRoute")
 public class ShippingRoute {
+
     @Id
     @Column(name = "id", nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +47,31 @@ public class ShippingRoute {
     @JsonBackReference
     @ManyToOne(optional = true)
     @JoinColumn(name = "vessel_id", referencedColumnName = "id")
-    private Vessel vessel;
+    // instantiate new vessel object to avoid null pointer exception
+    private Vessel vessel = new Vessel();
 
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // @JoinColumn(name = "vessel_id", referencedColumnName = "id", nullable = false)
     // @OnDelete(action = OnDeleteAction.CASCADE)
     // @JsonIgnore
     // private Vessel vessel;
+
+    public ShippingRoute() {
+    }
+
+    
+
+    public ShippingRoute( String port, Integer id,
+            LocalDate date_of_arrival, String purpose_of_travel, double tax_fees_port_expenses, Vessel vessel) {
+        this.id = id;
+        this.port = port;
+        this.date_of_arrival = date_of_arrival;
+        this.purpose_of_travel = purpose_of_travel;
+        this.tax_fees_port_expenses = tax_fees_port_expenses;
+        this.vessel = vessel;
+    }
+
+  
 
     public Vessel getVessel() {
         return vessel;
@@ -101,5 +121,7 @@ public class ShippingRoute {
     public void setTax_fees_port_expenses(double tax_fees_port_expenses) {
         this.tax_fees_port_expenses = tax_fees_port_expenses;
     }
+
+
 
 }

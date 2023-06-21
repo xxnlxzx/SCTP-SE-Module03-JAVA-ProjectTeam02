@@ -1,6 +1,7 @@
 package com.sctp.module3project2.services;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -36,8 +37,8 @@ public class ShippingRouteServiceImpl implements ShippingRouteService{
     }
 
     @Override
-    public ArrayList<ShippingRoute> getAllShippingRoutes() {
-        ArrayList<ShippingRoute> allShippingRoute = (ArrayList<ShippingRoute>) shippingRouteRepository.findAll();
+    public List<ShippingRoute> getAllShippingRoutes() {
+        List<ShippingRoute> allShippingRoute = (ArrayList<ShippingRoute>) shippingRouteRepository.findAll();
         return allShippingRoute;
     }
 

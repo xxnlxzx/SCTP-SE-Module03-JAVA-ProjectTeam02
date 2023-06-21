@@ -17,9 +17,4 @@ public interface BerthService {
 
     void deleteBerth(Long id);
 
-    // Added new interface - deleteAllBerths & resetBerthIdSequence
-    void deleteAllBerths();
-
-    void resetBerthIdSequence();
-
 }

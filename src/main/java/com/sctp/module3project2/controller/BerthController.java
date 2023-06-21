@@ -87,14 +87,4 @@ public class BerthController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/delete-all")
-    public ResponseEntity<Void> deleteAllBerthPortLocations() {
-        try {
-            service.deleteAllBerths();
-            return ResponseEntity.noContent().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Or any other appropriate HTTP status code
-        }
-    }
-
 }

@@ -135,12 +135,4 @@ class BerthControllerTest {
         verifyNoMoreInteractions(berthService);
     }
 
-    @Test
-    void deleteAllBerthPortLocations() throws Exception {
-        mockMvc.perform(delete("/api/berth-location/delete-all"))
-                .andExpect(status().isNoContent());
-
-        verify(berthService, times(1)).deleteAllBerths();
-        verifyNoMoreInteractions(berthService);
-    }
 }

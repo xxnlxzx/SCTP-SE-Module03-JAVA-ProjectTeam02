@@ -39,7 +39,7 @@ public class BerthServiceImpl implements BerthService {
         Berth createdBerth = berthRepository.save(berth);
 
         // Update the ID to a lower number
-        Long newId = 1L; // Specify the desired lower number for the ID
+        Long newId = 1L;
         createdBerth.setId(newId);
         berthRepository.save(createdBerth);
         return berthRepository.save(berth);
@@ -81,6 +81,7 @@ public class BerthServiceImpl implements BerthService {
             // berthInfo.setAvailability(existingBerth.isAvailability());
             // }
             // <---- End of edit by Farhan ---->
+
             return berthRepository.save(existingBerth);
         }
         return null;
@@ -99,20 +100,6 @@ public class BerthServiceImpl implements BerthService {
             }
             berthRepository.deleteById(id);
         }
-    }
-
-    // Added by Farhan - Flush changes to the database
-    @Override
-    public void deleteAllBerths() {
-        berthRepository.deleteAll();
-        berthRepository.flush();
-    }
-
-    @Override
-    public void resetBerthIdSequence() {
-        String nativeQuery = "ALTER SEQUENCE berth_id_sequence RESTART WITH 1";
-        Query query = entityManager.createNativeQuery(nativeQuery);
-        query.executeUpdate();
     }
 
 }

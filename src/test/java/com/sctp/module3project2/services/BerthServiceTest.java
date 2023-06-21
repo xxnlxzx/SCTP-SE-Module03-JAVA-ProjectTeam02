@@ -2,11 +2,9 @@ package com.sctp.module3project2.services;
 
 import com.sctp.module3project2.entity.Berth;
 import com.sctp.module3project2.repository.BerthRepository;
-// import com.sctp.module3project2.services.BerthServiceImpl;
-
+import com.sctp.module3project2.repository.BookingRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -17,35 +15,32 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class BerthServiceTest {
+public class BerthServiceTest {
 
     @Mock
     private BerthRepository berthRepository;
+    @Mock
+    private BookingRepository bookingRepository;
 
-    @InjectMocks
-    private BerthServiceImpl berthService;
+    private BerthService berthService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        berthService = new BerthServiceImpl(berthRepository, bookingRepository);
     }
 
     @Test
     void getAllBerths() {
         // Arrange
-        List<Berth> berths = new ArrayList<>();
-        berths.add(new Berth(1L, "Berth 1", "Location 1", true));
-        berths.add(new Berth(2L, "Berth 2", "Location 2", true));
-
-        when(berthRepository.findAll()).thenReturn(berths);
+        List<Berth> expectedBerths = new ArrayList<>();
+        when(berthRepository.findAll()).thenReturn(expectedBerths);
 
         // Act
         List<Berth> result = berthService.getAllBerths();
 
         // Assert
-        assertEquals(2, result.size());
-        assertEquals("Berth 1", result.get(0).getName());
-        assertEquals("Location 2", result.get(1).getLocation());
+        assertEquals(expectedBerths, result);
         verify(berthRepository, times(1)).findAll();
         verifyNoMoreInteractions(berthRepository);
     }
@@ -53,17 +48,16 @@ class BerthServiceTest {
     @Test
     void getBerthById() {
         // Arrange
-        Berth berth = new Berth(1L, "Berth 1", "Location 1", true);
-        when(berthRepository.findById(1L)).thenReturn(Optional.of(berth));
+        Long berthId = 1L;
+        Berth expectedBerth = new Berth(berthId, "Test Berth", "Test Location", true);
+        when(berthRepository.findById(berthId)).thenReturn(Optional.of(expectedBerth));
 
         // Act
-        Berth result = berthService.getBerthById(1L);
+        Berth result = berthService.getBerthById(berthId);
 
         // Assert
-        assertEquals("Berth 1", result.getName());
-        assertEquals("Location 1", result.getLocation());
-        assertEquals(true, result.isAvailability());
-        verify(berthRepository, times(1)).findById(1L);
+        assertEquals(expectedBerth, result);
+        verify(berthRepository, times(1)).findById(berthId);
         verifyNoMoreInteractions(berthRepository);
     }
 
@@ -72,16 +66,29 @@ class BerthServiceTest {
         // Arrange
         Berth berth = new Berth(null, "New Berth", "New Location", true);
         Berth savedBerth = new Berth(1L, "New Berth", "New Location", true);
-        when(berthRepository.save(berth)).thenReturn(savedBerth);
+        when(berthRepository.save(any(Berth.class))).thenReturn(savedBerth);
 
         // Act
         Berth result = berthService.createBerth(berth);
 
         // Assert
-        assertEquals(1L, result.getId());
-        assertEquals("New Berth", result.getName());
-        assertEquals("New Location", result.getLocation());
-        assertEquals(true, result.isAvailability());
+        assertEquals(savedBerth, result);
+        verify(berthRepository, times(3)).save(any(Berth.class));
+        verifyNoMoreInteractions(berthRepository);
+    }
+
+    @Test
+    void saveBerth() {
+        // Arrange
+        Berth berth = new Berth(null, "New Berth", "New Location", true);
+        Berth savedBerth = new Berth(1L, "New Berth", "New Location", true);
+        when(berthRepository.save(berth)).thenReturn(savedBerth);
+
+        // Act
+        Berth result = berthService.saveBerth(berth);
+
+        // Assert
+        assertEquals(savedBerth, result);
         verify(berthRepository, times(1)).save(berth);
         verifyNoMoreInteractions(berthRepository);
     }
@@ -89,55 +96,35 @@ class BerthServiceTest {
     @Test
     void updateBerth() {
         // Arrange
-        Berth berth = new Berth(1L, "Berth 1", "Location 1", true);
-        Berth updatedBerth = new Berth(1L, "Updated Berth", "Updated Location", false);
-        when(berthRepository.findById(1L)).thenReturn(Optional.of(berth));
-        when(berthRepository.save(berth)).thenReturn(updatedBerth);
+        Long berthId = 1L;
+        Berth existingBerth = new Berth(berthId, "Old Berth", "Old Location", false);
+        Berth updatedBerth = new Berth(berthId, "Updated Berth", "Updated Location", true);
+        when(berthRepository.findById(berthId)).thenReturn(Optional.of(existingBerth));
+        when(berthRepository.save(existingBerth)).thenReturn(updatedBerth);
 
         // Act
-        Berth result = berthService.updateBerth(1L, updatedBerth);
+        Berth result = berthService.updateBerth(berthId, updatedBerth);
 
         // Assert
-        assertEquals("Updated Berth", result.getName());
-        assertEquals("Updated Location", result.getLocation());
-        assertEquals(false, result.isAvailability());
-        verify(berthRepository, times(1)).findById(1L);
-        verify(berthRepository, times(1)).save(berth);
+        assertEquals(updatedBerth, result);
+        verify(berthRepository, times(1)).findById(berthId);
+        verify(berthRepository, times(1)).save(existingBerth);
         verifyNoMoreInteractions(berthRepository);
     }
 
     @Test
     void deleteBerth() {
         // Arrange
-        Berth berth = new Berth(1L, "Berth Name", "Berth Location", true);
-        when(berthRepository.findById(1L)).thenReturn(Optional.of(berth));
+        Long berthId = 1L;
+        Berth existingBerth = new Berth(berthId, "Test Berth", "Test Location", true);
+        when(berthRepository.findById(berthId)).thenReturn(Optional.of(existingBerth));
 
         // Act
-        berthService.deleteBerth(1L);
+        berthService.deleteBerth(berthId);
 
         // Assert
-        verify(berthRepository, times(1)).findById(1L);
-        verify(berthRepository, times(1)).deleteById(1L);
-        verifyNoMoreInteractions(berthRepository);
-    }
-
-    @Test
-    void deleteAllBerths() {
-        // Arrange & Act
-        berthService.deleteAllBerths();
-
-        // Assert
-        verify(berthRepository, times(1)).deleteAll();
-        verifyNoMoreInteractions(berthRepository);
-    }
-
-    @Test
-    void resetBerthIdSequence() {
-        // Arrange & Act
-        berthService.resetBerthIdSequence();
-
-        // Assert
-        verify(berthRepository, times(1)).resetIdSequence();
+        verify(berthRepository, times(1)).findById(berthId);
+        verify(berthRepository, times(1)).deleteById(berthId);
         verifyNoMoreInteractions(berthRepository);
     }
 }

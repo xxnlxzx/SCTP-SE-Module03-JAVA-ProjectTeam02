@@ -72,7 +72,9 @@ public class ShippingRouteController {
     @GetMapping("")
     public ResponseEntity<ArrayList<ShippingRoute>> getAllShippingRoute(@RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException {
         useridService.verifyPassword(user, password);
+
         ArrayList<ShippingRoute> allShippingRoute = (ArrayList<ShippingRoute>) shippingRouteService.getAllShippingRoutes();
+
         return new ResponseEntity<>(allShippingRoute, HttpStatus.OK);
     }
 

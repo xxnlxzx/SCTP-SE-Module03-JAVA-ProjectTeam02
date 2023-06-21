@@ -15,8 +15,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -64,7 +63,6 @@ public class ShippingRoute {
 
     public ShippingRoute( String port, Integer id,
             LocalDate date_of_arrival, String purpose_of_travel, double tax_fees_port_expenses, Vessel vessel) {
-    
         this.id = id;
         this.port = port;
         this.date_of_arrival = date_of_arrival;
@@ -74,7 +72,7 @@ public class ShippingRoute {
     }
 
   
-    
+
     public Vessel getVessel() {
         return vessel;
     }

@@ -20,4 +20,6 @@ public interface UseridService {
     String findPassWordByUserID(String userid);
     
     void verifyPassword(String userid, String password);
+
 }
+

@@ -3,7 +3,6 @@ package com.sctp.module3project2.controller;
 import java.util.ArrayList;
 // import java.util.HashMap;
 // import java.util.Map;
-import java.util.List;
 
 import javax.naming.AuthenticationException;
 
@@ -39,10 +38,7 @@ public class ShippingRouteController {
 
     @PostMapping("")
     public ResponseEntity<ShippingRoute> saveShippingRoute(@RequestBody ShippingRoute shippingRoute, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         ShippingRoute newShippingRoute = shippingRouteService.saveShippingRoute(shippingRoute);
         return new ResponseEntity<>(newShippingRoute, HttpStatus.CREATED);
         
@@ -50,10 +46,7 @@ public class ShippingRouteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ShippingRoute> getShippingRoute(@PathVariable int id, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException {
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         ShippingRoute foundShippingRoute = shippingRouteService.getShippingRoute(id);
         
         return new ResponseEntity<>(foundShippingRoute, HttpStatus.OK);
@@ -78,30 +71,21 @@ public class ShippingRouteController {
 
     @GetMapping("")
     public ResponseEntity<ArrayList<ShippingRoute>> getAllShippingRoute(@RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException {
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         ArrayList<ShippingRoute> allShippingRoute = (ArrayList<ShippingRoute>) shippingRouteService.getAllShippingRoutes();
         return new ResponseEntity<>(allShippingRoute, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ShippingRoute> updateShippingRoute(@PathVariable int id,@RequestHeader(value="password") String password,  @RequestBody ShippingRoute shippingRoute, @RequestHeader(value="user") String user) throws AuthenticationException {
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         ShippingRoute updatedShippingRoute = shippingRouteService.updateShippingRoute(id, shippingRoute);
         return new ResponseEntity<>(updatedShippingRoute, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteShippingRoute(@PathVariable int id, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException {
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         shippingRouteService.deleteShippingRoute(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

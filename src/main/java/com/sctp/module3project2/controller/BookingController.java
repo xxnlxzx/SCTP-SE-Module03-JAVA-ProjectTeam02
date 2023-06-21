@@ -36,10 +36,7 @@ public class BookingController {
 
     @GetMapping("")
     public ResponseEntity<ArrayList<Booking>> getAllBookings(@RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+       useridService.verifyPassword(user, password);
         ArrayList<Booking> allBookings = bookingService.getAllBookings();
         return ResponseEntity.ok(allBookings);
 
@@ -47,30 +44,21 @@ public class BookingController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Booking> getBooking(@PathVariable Long id, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         Booking foundBooking = bookingService.getBooking(id);
         return ResponseEntity.ok(foundBooking);
     }
 
     @PostMapping("")
     public ResponseEntity<Booking> saveBooking(@RequestBody Booking booking, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         Booking newBooking = bookingService.saveBooking(booking);
         return ResponseEntity.ok(newBooking);
     }
 
     @PutMapping(value="/{id}")
     public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody Booking booking, @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         Booking updatedBooking = bookingService.updateBooking(id, booking);
         return ResponseEntity.ok(updatedBooking);
     }
@@ -78,10 +66,7 @@ public class BookingController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Booking> deleteBooking(@PathVariable Long id , @RequestHeader(value="password") String password, @RequestHeader(value="user") String user) throws AuthenticationException{
-        String passwordSystem = useridService.findPassWordByUserID(user);
-        if (!(passwordSystem.equals(password))){
-            throw new AuthenticationException("Username/Password authentication not accepted");
-        }
+        useridService.verifyPassword(user, password);
         bookingService.deleteBooking(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

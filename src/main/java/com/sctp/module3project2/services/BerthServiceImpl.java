@@ -1,26 +1,47 @@
 package com.sctp.module3project2.services;
 
 import com.sctp.module3project2.entity.Berth;
+import com.sctp.module3project2.entity.Booking;
 import com.sctp.module3project2.repository.BerthRepository;
+import com.sctp.module3project2.repository.BookingRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 @Service
+// Responsible for business logics.
+// Commonly skipped if business logics are too retrieval
+
 public class BerthServiceImpl implements BerthService {
 
     private final BerthRepository berthRepository;
+    private final BookingRepository bookingRepository;
 
-    @Autowired
-    public BerthServiceImpl(BerthRepository berthRepository) {
+    public BerthServiceImpl(BerthRepository berthRepository, BookingRepository bookingRepository) {
         this.berthRepository = berthRepository;
+        this.bookingRepository = bookingRepository;
     }
+
+    // Added by Farhan
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public Berth createBerth(Berth berth) {
+        // Reset ID to a new lower digit ID
+        berth.setId(null);
+        Berth createdBerth = berthRepository.save(berth);
+
+        // Update the ID to a lower number
+        Long newId = 1L; // Specify the desired lower number for the ID
+        createdBerth.setId(newId);
+        berthRepository.save(createdBerth);
         return berthRepository.save(berth);
     }
 
@@ -37,6 +58,8 @@ public class BerthServiceImpl implements BerthService {
 
     @Override
     public Berth saveBerth(Berth berth) {
+        // Reset ID to a new lower digit ID
+        berth.setId(null);
         return berthRepository.save(berth);
     }
 
@@ -48,6 +71,16 @@ public class BerthServiceImpl implements BerthService {
             existingBerth.setName(berth.getName());
             existingBerth.setLocation(berth.getLocation());
             existingBerth.setAvailability(berth.isAvailability());
+
+            // <---- Added by Farhan - Associated with 'Booking' ---->
+            // Booking booking = existingBerth.getBooking();
+            // if (booking != null) {
+            // Berth berthInfo = booking.getBerth();
+            // berthInfo.setName(existingBerth.getName());
+            // berthInfo.setLocation(existingBerth.getLocation());
+            // berthInfo.setAvailability(existingBerth.isAvailability());
+            // }
+            // <---- End of edit by Farhan ---->
             return berthRepository.save(existingBerth);
         }
         return null;
@@ -55,7 +88,31 @@ public class BerthServiceImpl implements BerthService {
 
     @Override
     public void deleteBerth(Long id) {
-        berthRepository.deleteById(id);
+        Optional<Berth> optionalBerth = berthRepository.findById(id);
+        if (optionalBerth.isPresent()) {
+            Berth berth = optionalBerth.get();
+            Booking booking = berth.getBooking();
+            if (booking != null) {
+                berth.setBooking(null); // Dissociate the booking from the berth
+                berthRepository.save(berth);
+                bookingRepository.delete(booking);
+            }
+            berthRepository.deleteById(id);
+        }
+    }
+
+    // Added by Farhan - Flush changes to the database
+    @Override
+    public void deleteAllBerths() {
+        berthRepository.deleteAll();
+        berthRepository.flush();
+    }
+
+    @Override
+    public void resetBerthIdSequence() {
+        String nativeQuery = "ALTER SEQUENCE berth_id_sequence RESTART WITH 1";
+        Query query = entityManager.createNativeQuery(nativeQuery);
+        query.executeUpdate();
     }
 
 }

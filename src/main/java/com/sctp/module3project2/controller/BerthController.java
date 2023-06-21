@@ -1,5 +1,6 @@
 package com.sctp.module3project2.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import com.sctp.module3project2.services.BerthService;
 import java.util.List;
 
 @RestController
-
+// Responsible of handling HTTP related codes.
 /*
  * : http://localhost:8080/api/berth-location
  * : http://localhost:8080/api/berth-location/(id)
@@ -84,6 +85,16 @@ public class BerthController {
     public ResponseEntity<Void> deleteBerthPortLocation(@PathVariable("id") Long id) {
         service.deleteBerth(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<Void> deleteAllBerthPortLocations() {
+        try {
+            service.deleteAllBerths();
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Or any other appropriate HTTP status code
+        }
     }
 
 }

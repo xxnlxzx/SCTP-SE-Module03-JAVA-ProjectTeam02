@@ -1,21 +1,18 @@
 package com.sctp.module3project2.entity;
 
-// import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-// import javax.persistence.JoinColumn;
-// import javax.persistence.ManyToOne;
-// import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-// Update by Farhan
+// Updated by Farhan
 @Entity
 @Table(name = "berth", schema = "public")
 public class Berth {
@@ -32,21 +29,18 @@ public class Berth {
     @NotBlank(message = "Cannot be empty")
     @Size(max = 50, message = "Entry cannot exceed 50 characters")
     @Column(nullable = false, length = 50)
-    private String location; // Add the location field
+    private String location;
 
     @Column(name = "is_available", nullable = false)
     private boolean availability;
 
-    // NEW PROPERTIES.
-    @OneToOne(mappedBy = "berth")
-    private Booking booking;
+    // Added by Farhan - Cascade & OrphanRemoval
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 
-    // @OneToMany(mappedBy = "berth")
-    // private List<Berth> portLocations;
-
-    // @ManyToOne
+    // Edited by Farhan
+    @PrimaryKeyJoinColumn
     // @JoinColumn(name = "berth_id")
-    // private Berth berth;
+    private Booking booking;
 
     // CONSTRUCTORS.
     public Berth() {
@@ -100,23 +94,4 @@ public class Berth {
     public void setBooking(Booking booking) {
         this.booking = booking;
     }
-
-    // OneToMany relationship
-    // public List<PortLocations> getPortLocations() {
-    // return portLocations;
-    // }
-
-    // public void setPortLocations(List<PortLocations> portLocations) {
-    // this.portLocations = portLocations;
-    // }
-
-    // ManyToOne relationship
-    // public Berth getBerth() {
-    // return berth;
-    // }
-
-    // public void setBerth(Berth berth) {
-    // this.berth = berth;
-    // }
-
 }

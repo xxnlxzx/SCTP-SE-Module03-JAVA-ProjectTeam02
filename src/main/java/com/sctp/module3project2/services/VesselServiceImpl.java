@@ -2,7 +2,8 @@ package com.sctp.module3project2.services;
 
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.sctp.module3project2.entity.Booking;
+import com.sctp.module3project2.repository.BookingRepository;
 import com.sctp.module3project2.entity.ShippingRoute;
 import com.sctp.module3project2.entity.Vessel;
 import com.sctp.module3project2.repository.ShippingRouteRepository;
@@ -15,12 +16,13 @@ import java.util.List;
 public class VesselServiceImpl implements VesselService {
 
     private final VesselRepository vesselRepository;
-    private final ShippingRouteRepository shippingRouteRepository;
+    // private final ShippingRouteRepository shippingRouteRepository;
+    // private final BookingRepository bookingRepository;
 
-
-    public VesselServiceImpl(VesselRepository vesselRepository, ShippingRouteRepository shippingRouteRepository) {
+  public VesselServiceImpl(VesselRepository vesselRepository) {
         this.vesselRepository = vesselRepository;
-        this.shippingRouteRepository = shippingRouteRepository;
+        // this.shippingRouteRepository = shippingRouteRepository;
+        // this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -42,11 +44,29 @@ public class VesselServiceImpl implements VesselService {
     public Vessel updateVessel(Long id, Vessel vessel) {
         Optional<Vessel> optionalVessel = vesselRepository.findById(id);
         if (optionalVessel.isPresent()) {
-            Vessel existingVessel = optionalVessel.get();
+            Vessel vesselToUpdate = optionalVessel.get();
+
             // Perform necessary updates to the existingVessel object
-            // For example: existingVessel.setName(updatedName);
+            vesselToUpdate.setName(vessel.getName());
+            vesselToUpdate.setType(vessel.getType());
+
+            List<ShippingRoute> updatedShippingRoutes = vessel.getShippingRoute();
+            List<ShippingRoute> existingShippingRoutes = vesselToUpdate.getShippingRoute();
+
+            // Update each shipping route in the list
+            for (int i = 0; i < updatedShippingRoutes.size(); i++) {
+                ShippingRoute updatedRoute = updatedShippingRoutes.get(i);
+                ShippingRoute existingRoute = existingShippingRoutes.get(i);
+
+                existingRoute.setPort(updatedRoute.getPort());
+                existingRoute.setDate_of_arrival(updatedRoute.getDate_of_arrival());
+                existingRoute.setPurpose_of_travel(updatedRoute.getPurpose_of_travel());
+                existingRoute.setTax_fees_port_expenses(updatedRoute.getTax_fees_port_expenses());
+            }
+
+            
             // Save the updated vessel
-            return vesselRepository.save(existingVessel);
+            return vesselRepository.save(vesselToUpdate);
         } else {
             throw new IllegalArgumentException("Vessel not found with ID: " + id);
         }
@@ -57,18 +77,31 @@ public class VesselServiceImpl implements VesselService {
         vesselRepository.deleteById(id);
     }
 
-    @Override
-    public ShippingRoute addShippingRouteToVessel(Long id, ShippingRoute ShippingRoute) {
-        Optional<Vessel> wrappedVessel = vesselRepository.findById(id);
-        if (!wrappedVessel.isPresent()){
-            throw new IllegalArgumentException("Vessel not Found with ID: "+ id);
-        }
 
-        Vessel selectedVessel = wrappedVessel.get();
+    //   @Override
+    // public Booking addBookingToVessel(Long id, Booking booking) {
+    //     Optional<Vessel> optionalVessel = vesselRepository.findById(id);
+    //     if (optionalVessel.isPresent()) {
+    //         Vessel existingVessel = optionalVessel.get();
+    //         booking.setVessel(existingVessel);
+    //         return bookingRepository.save(booking);
+    //     } else {
+    //         throw new IllegalArgumentException("Vessel not found with ID: " + id);
+    //     }
+    // }
 
-        ShippingRoute.setVessel(selectedVessel);
-        return shippingRouteRepository.save(ShippingRoute);
-    }
+
+    //  @Override
+    // public ShippingRoute addShippingRouteToVessel(Long id, ShippingRoute shippingRoute) {
+    //     Optional<Vessel> optionalVessel = vesselRepository.findById(id);
+    //     if (optionalVessel.isPresent()) {
+    //         Vessel existingVessel = optionalVessel.get();
+    //         shippingRoute.setVessel(existingVessel);
+    //         return shippingRouteRepository.save(shippingRoute);
+    //     } else {
+    //         throw new IllegalArgumentException("Vessel not found with ID: " + id);
+    //     }
+    // }
     
 
 

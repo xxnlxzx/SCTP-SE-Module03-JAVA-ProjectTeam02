@@ -21,7 +21,7 @@ public VesselController(VesselService vesselService )
     {this.vesselService = vesselService;
 }
 
-@GetMapping
+@GetMapping("")
 public List<Vessel> findAllVessels(){
     return vesselService.findAllVessels();
 }
@@ -51,9 +51,9 @@ public ResponseEntity<HttpStatus> deleteVessel(@PathVariable("id") Long id) {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 }
 
-@PostMapping("/{id}/shippingroute")
-public ResponseEntity<ShippingRoute> addShippingRouteToVessel(@PathVariable Long id, @RequestBody ShippingRoute shippingRoute){
-    ShippingRoute newShippingRoute = vesselService.addShippingRouteToVessel(id, shippingRoute);
-    return new ResponseEntity<>(newShippingRoute, HttpStatus.OK);
-}
+// @PostMapping("/{id}/shippingroute")
+// public ResponseEntity<ShippingRoute> addShippingRouteToVessel(@PathVariable Long id, @RequestBody ShippingRoute shippingRoute){
+//     ShippingRoute newShippingRoute = vesselService.addShippingRouteToVessel(id, shippingRoute);
+//     return new ResponseEntity<>(newShippingRoute, HttpStatus.OK);
+// }
 }

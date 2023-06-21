@@ -35,8 +35,9 @@ public class Booking {
     @JoinColumn(name = "berth_id", referencedColumnName = "id")
     private Berth berth;
 
-    // @OneToOne(mappedBy = "Vessel")
-    // private Vessel vessel;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vessel_id", referencedColumnName = "id")
+    private Vessel vessel;
 
 
     // @OneToOne(mappedBy = "ShippingRoute")
@@ -70,13 +71,13 @@ public class Booking {
         this.id = id;
     }
 
-    // public Vessel getVessel() {
-    //     return vessel;
-    // }
+    public Vessel getVessel() {
+        return vessel;
+    }
 
-    // public void setVessel(Vessel vessel) {
-    //     this.vessel = vessel;
-    // }
+    public void setVessel(Vessel vessel) {
+        this.vessel = vessel;
+    }
 
     // public Berth getBerth() {
     //     return berth;

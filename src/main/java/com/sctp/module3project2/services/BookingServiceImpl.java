@@ -11,15 +11,19 @@ import com.sctp.module3project2.entity.BookingDateTime;
 import com.sctp.module3project2.entity.Vessel;
 import com.sctp.module3project2.exception.BookingNotFoundException;
 import com.sctp.module3project2.repository.BookingRepository;
+import com.sctp.module3project2.entity.ShippingRoute;
+import java.util.List;
 
 // Joel
 
 @Service
 public class BookingServiceImpl implements BookingService {
     private BookingRepository bookingRepository;
+    private VesselService vesselService;
 
-    public BookingServiceImpl(BookingRepository bookingRepository) {
+    public BookingServiceImpl(BookingRepository bookingRepository, VesselService vesselService) {
         this.bookingRepository = bookingRepository;
+        this.vesselService = vesselService;
     }
     
     @Override
@@ -78,6 +82,15 @@ public class BookingServiceImpl implements BookingService {
         bookingToUpdate.getBerth().setLocation(berth.getLocation());
         bookingToUpdate.getBerth().setAvailability(berth.isAvailability());
 
+        // Vessel vesselInfo = booking.getVessel();
+        // Vessel vessel = new Vessel();
+        // vessel.setName(vesselInfo.getName());
+        // vessel.setType(vesselInfo.getType());
+        // vessel.setShippingRoutes(vesselInfo.getShippingRoutes());
+        // bookingToUpdate.getVessel().setName(vessel.getName());
+        // bookingToUpdate.getVessel().setType(vessel.getType());
+        // bookingToUpdate.getVessel().setShippingRoutes(vessel.getShippingRoutes());
+
         Vessel vesselInfo = booking.getVessel();
         Vessel vessel = new Vessel();
         vessel.setName(vesselInfo.getName());
@@ -85,8 +98,36 @@ public class BookingServiceImpl implements BookingService {
         vessel.setShippingRoutes(vesselInfo.getShippingRoutes());
         bookingToUpdate.getVessel().setName(vessel.getName());
         bookingToUpdate.getVessel().setType(vessel.getType());
-        bookingToUpdate.getVessel().setShippingRoutes(vessel.getShippingRoutes());
+        // ArrayList<ShippingRoute> shippingRouteInfo = (ArrayList<ShippingRoute>) vesselInfo.getShippingRoutes();
+        // ArrayList<ShippingRoute> shippingRoute = new ArrayList<ShippingRoute>();
+        // for (ShippingRoute route : shippingRouteInfo) {
+        //     ShippingRoute newRoute = new ShippingRoute();
+        //         newRoute.setDate_of_arrival(route.getDate_of_arrival());
+        //         newRoute.setPort(route.getPort());
+        //         newRoute.setPurpose_of_travel(route.getPurpose_of_travel());
+        //         newRoute.setTax_fees_port_expenses(route.getTax_fees_port_expenses());
+        //         shippingRoute.add(newRoute);
+        // };
+        // bookingToUpdate.getVessel().setShippingRoutes(vessel.getShippingRoutes());
+        List<ShippingRoute> shippingRouteInfo = vesselInfo.getShippingRoutes();
 
+        for (int i = 0; i < shippingRouteInfo.size(); i++) {
+            ShippingRoute newRoute = new ShippingRoute();
+            newRoute.setDate_of_arrival(shippingRouteInfo.get(i).getDate_of_arrival());
+            newRoute.setPort(shippingRouteInfo.get(i).getPort());
+            newRoute.setPurpose_of_travel(shippingRouteInfo.get(i).getPurpose_of_travel());
+            newRoute.setTax_fees_port_expenses(shippingRouteInfo.get(i).getTax_fees_port_expenses());
+            newRoute.setId(bookingToUpdate.getVessel().getShippingRoutes().get(i).getId());
+            // newRoute.setVessel(shippingRouteInfo.get(i).getVessel());
+            newRoute.getVessel().setId(bookingToUpdate.getVessel().getId());
+            System.out.println(bookingToUpdate.getVessel().getShippingRoutes().get(i).getVessel());
+            bookingToUpdate.getVessel().getShippingRoutes().set(i, newRoute);
+        };
+
+       
+         
+
+    
         return bookingRepository.save(bookingToUpdate);
     }
 

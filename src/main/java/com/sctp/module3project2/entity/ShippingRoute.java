@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "ShippingRoute")
 public class ShippingRoute {
+
     @Id
     @Column(name = "id", nullable=false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +48,7 @@ public class ShippingRoute {
     @JsonBackReference
     @ManyToOne(optional = true)
     @JoinColumn(name = "vessel_id", referencedColumnName = "id")
-    private Vessel vessel;
+    private Vessel vessel = new Vessel();
 
     // @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // @JoinColumn(name = "vessel_id", referencedColumnName = "id", nullable = false)
@@ -56,8 +59,11 @@ public class ShippingRoute {
     public ShippingRoute() {
     }
 
-    public ShippingRoute(Integer id, String port, LocalDate date_of_arrival, String purpose_of_travel,
-            double tax_fees_port_expenses, Vessel vessel) {
+    
+
+    public ShippingRoute( String port, Integer id,
+            LocalDate date_of_arrival, String purpose_of_travel, double tax_fees_port_expenses, Vessel vessel) {
+    
         this.id = id;
         this.port = port;
         this.date_of_arrival = date_of_arrival;
@@ -66,6 +72,8 @@ public class ShippingRoute {
         this.vessel = vessel;
     }
 
+  
+    
     public Vessel getVessel() {
         return vessel;
     }
@@ -114,5 +122,7 @@ public class ShippingRoute {
     public void setTax_fees_port_expenses(double tax_fees_port_expenses) {
         this.tax_fees_port_expenses = tax_fees_port_expenses;
     }
+
+
 
 }

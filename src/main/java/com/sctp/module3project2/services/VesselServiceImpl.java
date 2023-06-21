@@ -3,10 +3,12 @@ package com.sctp.module3project2.services;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sctp.module3project2.entity.ShippingRoute;
 import com.sctp.module3project2.entity.Vessel;
 import com.sctp.module3project2.repository.VesselRepository;
 
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.List;
 // Edited by Afif
 @Service
@@ -39,9 +41,19 @@ public class VesselServiceImpl implements VesselService {
         Optional<Vessel> optionalVessel = vesselRepository.findById(id);
         if (optionalVessel.isPresent()) {
             Vessel existingVessel = optionalVessel.get();
-            // Perform necessary updates to the existingVessel object
-            // For example: existingVessel.setName(updatedName);
-            // Save the updated vessel
+            existingVessel.setName(existingVessel.getName());
+            existingVessel.setType(existingVessel.getType());
+            List<ShippingRoute> shippingRouteInfo = existingVessel.getShippingRoutes();
+            List<ShippingRoute> shippingRoute = new ArrayList<ShippingRoute>();
+            for (ShippingRoute route : shippingRouteInfo) {
+                ShippingRoute newRoute = new ShippingRoute();
+                newRoute.setDate_of_arrival(route.getDate_of_arrival());
+                newRoute.setPort(route.getPort());
+                newRoute.setPurpose_of_travel(route.getPurpose_of_travel());
+                newRoute.setTax_fees_port_expenses(route.getTax_fees_port_expenses());
+                shippingRoute.add(newRoute);
+            };
+            existingVessel.setShippingRoutes(shippingRoute);
             return vesselRepository.save(existingVessel);
         } else {
             throw new IllegalArgumentException("Vessel not found with ID: " + id);

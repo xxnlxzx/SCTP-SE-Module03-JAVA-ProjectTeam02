@@ -36,7 +36,10 @@ public class Vessel {
     @OneToMany(mappedBy="vessel", cascade =  CascadeType.ALL, orphanRemoval = true)
     private List<ShippingRoute> shippingRoutes = new ArrayList<>();
     
-
+    // @JsonManagedReference
+    // @OneToMany(mappedBy="vessel")
+    // private List<ShippingRoute> shippingRoutes = new ArrayList<>();
+    
     
     public List<ShippingRoute> getShippingRoutes() {
         return shippingRoutes;

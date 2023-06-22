@@ -11,6 +11,8 @@ import com.sctp.module3project2.services.VesselService;
 import java.util.List;
 import java.util.Optional;
 // Edited by Afif
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/vessels")
 public class VesselController {

@@ -175,13 +175,13 @@ public class BookingServiceImplTest {
 
         Berth berth2 = new Berth((long)1, "berth1", "east", true);
 
-        ShippingRoute shippingRoute3 = new ShippingRoute();
+        // ShippingRoute shippingRoute3 = new ShippingRoute();
         shippingRoute1.setId(1);
-        shippingRoute1.setPort("Update");
+        shippingRoute1.setPort("test");
         shippingRoute1.setDate_of_arrival(LocalDate.of(2023,06,10));
         shippingRoute1.setPurpose_of_travel("visit");
         shippingRoute1.setTax_fees_port_expenses(0.0);
-        ShippingRoute shippingRoute4 = new ShippingRoute();
+        // ShippingRoute shippingRoute4 = new ShippingRoute();
         shippingRoute2.setId(2);
         shippingRoute2.setPort("Update");
         shippingRoute2.setDate_of_arrival(LocalDate.of(2023,06,11));
@@ -194,9 +194,9 @@ public class BookingServiceImplTest {
         shippingRoute5.setPurpose_of_travel("visit");
         shippingRoute5.setTax_fees_port_expenses(0.0);
         List<ShippingRoute> shippingRoutes2 = new ArrayList<>();
-        shippingRoutes.add(shippingRoute3);
-        shippingRoutes.add(shippingRoute4);
-        shippingRoutes.add(shippingRoute5);
+        shippingRoutes2.add(shippingRoute1);
+        shippingRoutes2.add(shippingRoute2);
+        shippingRoutes2.add(shippingRoute5);
 
         Vessel vessel2 = new Vessel((long)1, "Update", "Large-class", shippingRoutes2);
 
@@ -205,14 +205,18 @@ public class BookingServiceImplTest {
         booking.setVessel(vessel2);
         booking.setActivity("Update");
         booking.setRemarks("Update");
+        System.out.println(booking.getVessel());
 
         bookingService.updateBooking((long)1,booking);
         verify(bookingRepository, times(1)).save(booking);
         assertEquals(booking.getVessel().getShippingRoutes().size(), 3);
+        assertEquals(booking.getVessel().getShippingRoutes().get(0).getPort(), "test");
         assertEquals(booking.getBookingDateTime().getBooktime(), "13:00");
         assertEquals(booking.getBerth().getId(), berth2.getId());
         assertEquals(booking.getActivity(), "Update");
         assertEquals(booking.getId(), 1);
     }
 }
+        
+
         

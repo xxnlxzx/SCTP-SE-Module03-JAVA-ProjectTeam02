@@ -28,10 +28,10 @@ jobs:
       - docker/check
       - docker/build:
           image: joelchua2403/education-space
-          tag: <<pipeline.git.tag>>
+          # tag: <<pipeline.git.tag>>
       - docker/push:
           image: joelchua2403/education-space
-          tag: <<pipeline.git.tag>>
+          # tag: <<pipeline.git.tag>>
   deploy:
     docker:
         - image: cimg/openjdk:17.0.7

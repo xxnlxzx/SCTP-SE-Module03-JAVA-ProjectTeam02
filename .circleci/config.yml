@@ -50,7 +50,7 @@ jobs:
 workflows:
   ci_flow:
     jobs:
-      - build
+      - build:
           filters:
             branches:
               only: develop
@@ -62,6 +62,16 @@ workflows:
               only: develop 
   cicd_flow:
     jobs:
+      - build:
+          filters:
+            branches:
+              only: release
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: release 
       - build-and-push:
           requires:
             - test

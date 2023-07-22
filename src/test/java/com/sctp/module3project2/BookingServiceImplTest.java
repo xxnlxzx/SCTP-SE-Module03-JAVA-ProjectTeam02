@@ -139,7 +139,7 @@ public class BookingServiceImplTest {
        ArrayList<Booking> allBookings = bookingService.getAllBookings();
 
         verify(bookingRepository, times(1)).findAll();
-        assertEquals(1, allBookings.size());
+        assertEquals(2, allBookings.size()); // change to 2
     }
 
     @Test

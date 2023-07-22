@@ -57,19 +57,19 @@ workflows:
           filters:
             branches:
               only: develop 
-      # - build-and-push:
-      #     requires:
-      #       - test
-          # filters:
-          #   tags:
-          #     only: /^v.*/  
-          #   branches: 
-          #     ignore: /.*/
-      # - deploy:
-      #     requires:
-      #       - build-and-push
-      #     filters:
-      #       tags:
-      #         only: /^v.*/
-      #       branches: 
-      #         ignore: /.*/
+      - build-and-push:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/  
+            branches: 
+              ignore: /.*/
+      - deploy:
+          requires:
+            - build-and-push
+          filters:
+            tags:
+              only: /^v.*/
+            branches: 
+              ignore: /.*/

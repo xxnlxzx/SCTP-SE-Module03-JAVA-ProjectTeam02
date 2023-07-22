@@ -1,0 +1,65 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.1.0
+  docker: circleci/docker@2.2.0
+  heroku: circleci/heroku@2.0.0
+jobs:
+  build:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    working_directory: ~/simple-crm-h2
+    steps:
+      - checkout
+      - run: mvn clean package
+  test:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    steps:
+      - checkout
+      - run: mvn test
+    
+  build-and-push:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: mvn clean package
+      - docker/check
+      - docker/build:
+          image: tsh96/education-space
+          tag: <<pipeline.git.tag>>
+      - docker/push:
+          image: tsh96/education-space
+          tag: <<pipeline.git.tag>>
+  deploy:
+    docker:
+        - image: cimg/openjdk:17.0.7
+    steps:
+        - setup_remote_docker      
+        - heroku/install
+        - checkout
+        - run:
+            name: Heroku Container Push
+            command: | 
+                heroku container:login
+                heroku container:push web -a tsh96-su-devops
+                heroku container:release web -a tsh96-su-devops
+
+workflows:
+  simple_workflow:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main  
+      - build-and-push:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - build-and-push

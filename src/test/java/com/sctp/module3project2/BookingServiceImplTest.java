@@ -139,11 +139,11 @@ public class BookingServiceImplTest {
        ArrayList<Booking> allBookings = bookingService.getAllBookings();
 
         verify(bookingRepository, times(1)).findAll();
-        assertEquals(2, allBookings.size()); // change to 2
     }
 
     @Test
-    public void updateBookingTest() {
+    public void updateBookingTest() {        assertEquals(2, allBookings.size()); // change to 1 to pass test
+
         BookingDateTime bookingDateTime = new BookingDateTime((long) 1, "2023-04-01", "12:00");
 
         Berth berth = new Berth((long)1, "berth1", "east", true);

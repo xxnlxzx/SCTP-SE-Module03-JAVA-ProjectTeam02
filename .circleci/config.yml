@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:17.0.7
-    working_directory: ~/simple-crm-h2
+    working_directory: ~/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02
     steps:
       - checkout
       - run: mvn clean package
@@ -28,10 +28,10 @@ jobs:
       - run: mvn clean package
       - docker/check
       - docker/build:
-          image: tsh96/education-space
+          image: joelchua2403/education-space
           tag: <<pipeline.git.tag>>
       - docker/push:
-          image: tsh96/education-space
+          image: joelchua2403/education-space
           tag: <<pipeline.git.tag>>
   deploy:
     docker:
@@ -44,11 +44,11 @@ jobs:
             name: Heroku Container Push
             command: | 
                 heroku container:login
-                heroku container:push web -a tsh96-su-devops
-                heroku container:release web -a tsh96-su-devops
+                heroku container:push web -a joelchua2403-su-devops
+                heroku container:release web -a joelchua2403-su-devops
 
 workflows:
-  simple_workflow:
+  ci_flow:
     jobs:
       - build
       - test:
@@ -56,10 +56,20 @@ workflows:
             - build
           filters:
             branches:
-              only: main  
+              only: master 
       - build-and-push:
           requires:
             - test
+          filters:
+            tags:
+              only: /^v.*/  
+            branches: 
+              ignore: /.*/
       - deploy:
           requires:
             - build-and-push
+          filters:
+            tags:
+              only: /^v.*/
+            branches: 
+              ignore: /.*/

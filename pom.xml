@@ -11,7 +11,7 @@
 
 	<groupId>com.sctp.module3-project2</groupId>
 	<artifactId>ProjectHarbourBooking</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>harbourBookingSystem</name>
 	<description>Module 3: Projects</description>
 	
@@ -50,10 +50,16 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency> 
+
+		<!-- <dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<!-- <scope>runtime</scope> -->
-		</dependency>
+		 	<scope>runtime</scope>
+		</dependency> !-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

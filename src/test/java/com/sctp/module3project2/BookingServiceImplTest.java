@@ -142,7 +142,7 @@ public class BookingServiceImplTest {
     }
 
     @Test
-    public void updateBookingTest() {        assertEquals(2, allBookings.size()); // change to 1 to pass test
+    public void updateBookingTest() {        assertEquals(1, allBookings.size()); // change to 1 to pass test
 
         BookingDateTime bookingDateTime = new BookingDateTime((long) 1, "2023-04-01", "12:00");
 

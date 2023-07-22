@@ -1,5 +1,6 @@
 version: 2.1
 orbs:
+  docker: circleci/docker@2.2.0
   heroku: circleci/heroku@2.0.0
 jobs:
   build:
@@ -19,16 +20,20 @@ jobs:
   build-and-push:
     docker:
       - image: cimg/openjdk:17.0.7
+    executor: docker/docker
     steps:
       - setup_remote_docker
       - checkout
       - run: mvn clean package
-      - run: 
-          name: Build and push image to DockerHub
-          command: | 
-            docker build -t joelchua2403/education-workspace .
-            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
-            docker push joelchua2403/education-workspace
+      - docker/check
+
+      - docker/build:
+          
+          image: joelchua2403/education-space
+          # tag: <<pipeline.git.tag>>
+      - docker/push:
+          image: joelchua2403/education-space
+          # tag: <<pipeline.git.tag>>
   deploy:
     docker:
         - image: cimg/openjdk:17.0.7

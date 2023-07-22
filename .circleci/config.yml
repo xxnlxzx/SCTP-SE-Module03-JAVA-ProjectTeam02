@@ -10,7 +10,7 @@ jobs:
     working_directory: ~/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02
     steps:
       - checkout
-      - run: mvn spring-boot:run
+      - run: mvn clean install
   test:
     docker:
       - image: cimg/openjdk:17.0.7

@@ -1,9 +1,9 @@
 version: 2.1
 orbs:
   heroku: circleci/heroku@2.0.0
-  snyk: snyk/snyk@1.5.0
-  docker: circleci/docker@2.1.4
+  snyk: snyk/snyk@1.7.0
   node: circleci/node@5.1.0
+  docker: circleci/docker@2.1.4
 jobs:
   build:
     docker:
@@ -25,6 +25,7 @@ jobs:
       - image: cimg/openjdk:17.0.7
     steps:
       - setup_remote_docker
+      - heroku/install
       - checkout
       - run: mvn clean package
       - run: 
@@ -33,20 +34,28 @@ jobs:
             docker build -t joelchua2403/education-workspace . 
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
             docker push joelchua2403/education-workspace
+      - run:
+          name: Heroku Container Push
+          command: | 
+            heroku container:login
+            heroku container:push web -a harbourbookingsystem
+            heroku container:release web -a harbourbookingsystem
+            
 
-  deploy:
-    docker:
-        - image: cimg/openjdk:17.0.7
-    steps:
-        - setup_remote_docker      
-        - heroku/install
-        - checkout
-        - run:
-            name: Heroku Container Push
-            command: | 
-                heroku container:login
-                heroku container:push web -a joelchua2403-su-devops
-                heroku container:release web -a joelchua2403-su-devops
+  # deploy:
+  #   docker:
+  #       - image: cimg/openjdk:17.0.7
+  #   steps:
+  #       - setup_remote_docker      
+  #       - heroku/install
+  #       - checkout
+  #       - run: mvn clean package
+  #       - run:
+  #           name: Heroku Container Push
+  #           command: | 
+  #               heroku container:login
+  #               heroku container:push web -a harbourbookingsystem
+  #               heroku container:release web -a harbourbookingsystem
 
   snyk-scan:
       docker:
@@ -61,6 +70,8 @@ jobs:
         - snyk/scan: 
             docker-image-name: joelchua2403/education-workspace
             severity-threshold: high
+
+
 workflows:
   ci_flow:
     jobs:
@@ -74,7 +85,12 @@ workflows:
           filters:
             branches:
               only: develop 
-
+      - snyk-scan:
+          requires:
+            - test
+          filters:
+            branches: 
+              only: develop
   cicd_flow:
     jobs:
       - build:
@@ -93,37 +109,23 @@ workflows:
           filters:
             branches: 
               only: release
-      - deploy:
-          requires:
-            - build-and-push
-          filters:
-            branches: 
-              only: release
+      # - deploy:
+      #     requires:
+      #       - build-and-push
+      #     filters:
+      #       branches: 
+      #         only: release
 
-  heroku_workflow:
-    jobs:
-      - build-and-push:
-          filters:
-            branches:
-              only: master
-      - deploy:
-          requires:
-            - build-and-push
-          filters:
-            branches:
-              only: master
+  # heroku_workflow:
+  #   jobs:
+  #     - build-and-push:
+  #         filters:
+  #           branches:
+  #             only: release
+  #     - deploy:
+  #         requires:
+  #           - build-and-push
+  #         filters:
+  #           branches:
+  #             only: release
 
-  snyk_workflow:
-    jobs:
-      - build:
-          filters:
-            branches:
-              only: develop
-      - snyk-scan:
-          requires:
-            - build
-          filters:
-            branches:
-              only: develop
-            tags:
-              only: /^v.*/  

@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar target/ProjectHarbourBooking-0.0.1.jar

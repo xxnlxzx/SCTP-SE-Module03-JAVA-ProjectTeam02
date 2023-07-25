@@ -110,7 +110,5 @@ workflows:
     jobs:
       - snyk-scan:
           filters:
-            branches:
-              only: develop, release
             tags:
               only: /^v.*/  

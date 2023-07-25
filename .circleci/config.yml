@@ -3,6 +3,7 @@ orbs:
   heroku: circleci/heroku@2.0.0
   snyk: snyk/snyk@1.5.0
   docker: circleci/docker@2.1.4
+  node: circleci/node@5.1.0
 jobs:
   build:
     docker:

@@ -52,14 +52,14 @@ jobs:
       docker:
           - image: cimg/openjdk:17.0.7
       environment:
-          IMAGE_NAME: joelchua2403/education-space
+          IMAGE_NAME: joelchua2403/education-workspace
       steps:
         - checkout
         - setup_remote_docker
         - docker/check
-        - run: docker build -t joelchua2403/education-space .
+        - run: docker build -t joelchua2403/education-workspace .
         - snyk/scan: 
-            docker-image-name: joelchua2403/education-space
+            docker-image-name: joelchua2403/education-workspace
             severity-threshold: high
 workflows:
   ci_flow:

@@ -1,8 +1,8 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.1.0
-  docker: circleci/docker@2.2.0
   heroku: circleci/heroku@2.0.0
+  snyk: snyk/snyk@1.5.0
+  
 jobs:
   build:
     docker:
@@ -10,7 +10,8 @@ jobs:
     working_directory: ~/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02
     steps:
       - checkout
-      - run: mvn clean install -DskipTests
+      - run: mvn install -DskipTests
+
   test:
     docker:
       - image: cimg/openjdk:17.0.7
@@ -21,18 +22,17 @@ jobs:
   build-and-push:
     docker:
       - image: cimg/openjdk:17.0.7
-    executor: docker/docker
     steps:
       - setup_remote_docker
       - checkout
       - run: mvn clean package
-      - docker/check
-      - docker/build:
-          image: joelchua2403/education-space
-          tag: <<pipeline.git.tag>>
-      - docker/push:
-          image: joelchua2403/education-space
-          tag: <<pipeline.git.tag>>
+      - run: 
+          name: Build and push image to DockerHub
+          command: | 
+            docker build -t joelchua2403/education-workspace . 
+            docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
+            docker push joelchua2403/education-workspace
+
   deploy:
     docker:
         - image: cimg/openjdk:17.0.7
@@ -47,29 +47,70 @@ jobs:
                 heroku container:push web -a joelchua2403-su-devops
                 heroku container:release web -a joelchua2403-su-devops
 
+  snyk-scan:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    steps:
+      - checkout
+      - run: npx snyk test --severity-threshold=medium
+
 workflows:
   ci_flow:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: develop
       - test:
           requires:
             - build
           filters:
             branches:
               only: develop 
-      # - build-and-push:
-      #     requires:
-      #       - test
-          # filters:
-          #   tags:
-          #     only: /^v.*/  
-          #   branches: 
-          #     ignore: /.*/
-      # - deploy:
-      #     requires:
-      #       - build-and-push
-      #     filters:
-      #       tags:
-      #         only: /^v.*/
-      #       branches: 
-      #         ignore: /.*/
+
+  cicd_flow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: release
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: release 
+      - build-and-push:
+          requires:
+            - test
+          filters:
+            branches: 
+              only: release
+      - deploy:
+          requires:
+            - build-and-push
+          filters:
+            branches: 
+              only: release
+
+  heroku_workflow:
+    jobs:
+      - build-and-push:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build-and-push
+          filters:
+            branches:
+              only: master
+
+  snyk_workflow:
+    jobs:
+      - snyk-scan:
+          filters:
+            branches:
+              only: develop
+            tags:
+              only: /^v.*/  

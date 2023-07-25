@@ -93,22 +93,24 @@ workflows:
             branches: 
               only: release
 
-  heroku_workflow:
-    jobs:
-      - build-and-push:
-          filters:
-            branches:
-              only: release
-      - deploy:
-          requires:
-            - build-and-push
-          filters:
-            branches:
-              only: release
+  # heroku_workflow:
+  #   jobs:
+  #     - build-and-push:
+  #         filters:
+  #           branches:
+  #             only: release
+  #     - deploy:
+  #         requires:
+  #           - build-and-push
+  #         filters:
+  #           branches:
+  #             only: release
 
   snyk_workflow:
     jobs:
       - snyk-scan:
           filters:
+            branches:
+              only: develop
             tags:
               only: /^v.*/  

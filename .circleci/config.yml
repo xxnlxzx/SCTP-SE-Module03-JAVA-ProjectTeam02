@@ -40,6 +40,7 @@ jobs:
         - setup_remote_docker      
         - heroku/install
         - checkout
+        - run: mvn clean package
         - run:
             name: Heroku Container Push
             command: | 

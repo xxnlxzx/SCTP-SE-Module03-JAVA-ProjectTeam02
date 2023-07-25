@@ -49,7 +49,7 @@ jobs:
                 heroku container:release web -a joelchua2403-su-devops
 
   snyk-scan:
-    docker:
+      docker:
             - image: cimg/node:16.10
         environment:
             IMAGE_NAME: joelchua2403/education-space

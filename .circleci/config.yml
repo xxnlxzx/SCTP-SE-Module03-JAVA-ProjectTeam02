@@ -1,8 +1,8 @@
 version: 2.1
 orbs:
   heroku: circleci/heroku@2.0.0
+  docker: circleci/docker@2.1.4
   snyk: snyk/snyk@1.5.0
-  docker: circleci/docker@1.1.0
 jobs:
   build:
     docker:
@@ -20,17 +20,17 @@ jobs:
       - run: mvn test
 
   scan:
-     docker:
-            - image: cimg/node:16.10
-        environment:
-            IMAGE_NAME: edisonzsq/education-space
-        steps:
-            - checkout
-            - setup_remote_docker      
-            - docker/check
-            - run: docker build -t joelchua2403/education-workspace .
-            - snyk/scan: 
-                docker-image-name: joelchua2403/education-workspace
+    docker:
+      - image: cimg/node:16.10
+      environment:
+          IMAGE_NAME: edisonzsq/education-space
+      steps:
+          - checkout
+          - setup_remote_docker      
+          - docker/check
+          - run: docker build -t joelchua2403/education-workspace .
+          - snyk/scan: 
+              docker-image-name: joelchua2403/education-workspace
     
   build-and-push:
     docker:

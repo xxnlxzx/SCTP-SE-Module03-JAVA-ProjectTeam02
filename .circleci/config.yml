@@ -98,13 +98,13 @@ workflows:
       - build-and-push:
           filters:
             branches:
-              only: master
+              only: release
       - deploy:
           requires:
             - build-and-push
           filters:
             branches:
-              only: master
+              only: release
 
   snyk_workflow:
     jobs:

@@ -3,6 +3,7 @@ orbs:
   heroku: circleci/heroku@2.0.0
   snyk: snyk/snyk@1.7.0
   node: circleci/node@5.1.0
+  docker: circleci/docker@2.1.4
 jobs:
   build:
     docker:
@@ -24,6 +25,7 @@ jobs:
       - image: cimg/openjdk:17.0.7
     steps:
       - setup_remote_docker
+      - heroku/install
       - checkout
       - run: mvn clean package
       - run: 
@@ -32,28 +34,43 @@ jobs:
             docker build -t joelchua2403/education-workspace . 
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
             docker push joelchua2403/education-workspace
+      - run:
+          name: Heroku Container Push
+          command: | 
+            heroku container:login
+            heroku container:push web -a harbourbookingsystem
+            heroku container:release web -a harbourbookingsystem
+            
 
-  deploy:
-    docker:
-        - image: cimg/openjdk:17.0.7
-    steps:
-        - setup_remote_docker      
-        - heroku/install
-        - checkout
-        - run: mvn clean package
-        - run:
-            name: Heroku Container Push
-            command: | 
-                heroku container:login
-                heroku container:push web -a harbourbookingsystem
-                heroku container:release web -a harbourbookingsystem
+  # deploy:
+  #   docker:
+  #       - image: cimg/openjdk:17.0.7
+  #   steps:
+  #       - setup_remote_docker      
+  #       - heroku/install
+  #       - checkout
+  #       - run: mvn clean package
+  #       - run:
+  #           name: Heroku Container Push
+  #           command: | 
+  #               heroku container:login
+  #               heroku container:push web -a harbourbookingsystem
+  #               heroku container:release web -a harbourbookingsystem
 
   snyk-scan:
-    docker:
-      - image: cimg/openjdk:17.0.7
-    steps:
-      - checkout
-      - run: npx snyk test --severity-threshold=medium
+      docker:
+          - image: cimg/openjdk:17.0.7
+      environment:
+          IMAGE_NAME: joelchua2403/education-workspace
+      steps:
+        - checkout
+        - setup_remote_docker
+        - docker/check
+        - run: docker build -t joelchua2403/education-workspace .
+        - snyk/scan: 
+            docker-image-name: joelchua2403/education-workspace
+            severity-threshold: high
+
 
 workflows:
   ci_flow:
@@ -68,7 +85,12 @@ workflows:
           filters:
             branches:
               only: develop 
-
+      - snyk-scan:
+          requires:
+            - test
+          filters:
+            branches: 
+              only: develop
   cicd_flow:
     jobs:
       - build:
@@ -87,12 +109,12 @@ workflows:
           filters:
             branches: 
               only: release
-      - deploy:
-          requires:
-            - build-and-push
-          filters:
-            branches: 
-              only: release
+      # - deploy:
+      #     requires:
+      #       - build-and-push
+      #     filters:
+      #       branches: 
+      #         only: release
 
   # heroku_workflow:
   #   jobs:
@@ -107,11 +129,3 @@ workflows:
   #           branches:
   #             only: release
 
-  snyk_workflow:
-    jobs:
-      - snyk-scan:
-          filters:
-            branches:
-              only: develop
-            tags:
-              only: /^v.*/  

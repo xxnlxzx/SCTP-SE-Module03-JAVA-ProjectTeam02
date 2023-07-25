@@ -6,9 +6,10 @@ FROM eclipse-temurin:17.0.7_7-jdk
 WORKDIR /app
 
 # Copy the Java application JAR file from the target directory
-COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02 .
+COPY target/harbourBookingSystem-0.0.1.jar .
 
-CMD ["java", "-jar", "booking-app.jar"]
+# Run the Java application
+CMD ["java", "-jar", "harbourBookingSystem-0.0.1.jar"]
 
 
 # mvn clean package will compile your code and also package it. 

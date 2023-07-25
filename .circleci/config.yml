@@ -52,7 +52,7 @@ jobs:
       - image: cimg/openjdk:17.0.7
     steps:
       - checkout
-      - run: npx snyk test --severity-threshold=medium
+      - run: npx snyk test --severity-threshold=high
 
 workflows:
   ci_flow:

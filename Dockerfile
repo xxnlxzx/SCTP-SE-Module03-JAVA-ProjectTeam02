@@ -6,7 +6,7 @@ FROM eclipse-temurin:17.0.7_7-jdk
 WORKDIR /app
 
 # Copy the Java application JAR file from the target directory
-COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02-0.0.1.jar .
+COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02 .
 
 CMD ["java", "-jar", "booking-app.jar"]
 

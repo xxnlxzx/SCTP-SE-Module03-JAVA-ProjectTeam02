@@ -6,7 +6,7 @@ FROM eclipse-temurin:17.0.7_7-jdk
 WORKDIR /app
 
 # Copy the Java application JAR file from the target directory
-COPY target/harbourBookingSystem-0.0.1.jar .
+COPY target/. .
 
 # Run the Java application
 CMD ["java", "-jar", "harbourBookingSystem-0.0.1.jar"]

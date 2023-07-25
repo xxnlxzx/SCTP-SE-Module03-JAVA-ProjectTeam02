@@ -38,9 +38,7 @@ public class Berth {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 
     // Edited by Farhan
-    @PrimaryKeyJoinColumn
-    // @JoinColumn(name = "berth_id")
-    private Booking booking;
+
 
     // CONSTRUCTORS.
     public Berth() {
@@ -86,12 +84,4 @@ public class Berth {
         this.availability = availability;
     }
 
-    // OneToOne relationship
-    public Booking getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Booking booking) {
-        this.booking = booking;
-    }
 }

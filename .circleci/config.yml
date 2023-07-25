@@ -59,7 +59,6 @@ jobs:
             name: Build and push image to DockerHub
             command: | 
               docker build -t joelchua2403/education-workspace .
-              docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS 
         - snyk/scan: 
             docker-image-name: joelchua2403/education-workspace
 workflows:
@@ -116,7 +115,13 @@ workflows:
 
   snyk_workflow:
     jobs:
+      - build:
+          filters:
+            branches:
+              only: develop
       - snyk-scan:
+          requires:
+            - build
           filters:
             branches:
               only: develop

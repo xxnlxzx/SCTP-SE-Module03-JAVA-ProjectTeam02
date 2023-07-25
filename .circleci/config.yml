@@ -5,10 +5,11 @@ jobs:
   build:
     docker:
       - image: cimg/openjdk:17.0.7
-    working_directory: ~/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02
+    working_directory: .
     steps:
       - checkout
       - run: mvn install -DskipTests
+
   test:
     docker:
       - image: cimg/openjdk:17.0.7
@@ -29,6 +30,7 @@ jobs:
             docker build -t joelchua2403/education-workspace . 
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
             docker push joelchua2403/education-workspace
+
   deploy:
     docker:
         - image: cimg/openjdk:17.0.7

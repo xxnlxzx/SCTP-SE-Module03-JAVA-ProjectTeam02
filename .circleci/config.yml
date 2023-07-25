@@ -3,7 +3,7 @@ orbs:
   heroku: circleci/heroku@2.0.0
   snyk: snyk/snyk@1.5.0
   node: circleci/node@5.0.1
-  
+  docker: circleci/docker@2.1.4
 jobs:
   build:
     docker:
@@ -50,17 +50,17 @@ jobs:
 
   snyk-scan:
       docker:
-      - image: cimg/openjdk:17.0.7
+          - image: cimg/openjdk:17.0.7
+      environment:
+          IMAGE_NAME: joelchua2403/education-space
       steps:
-        - setup_remote_docker
         - checkout
-        - run: mvn clean package
-        - run: 
-            name: Build and push image to DockerHub
-            command: | 
-              docker build -t joelchua2403/education-workspace .
+        - setup_remote_docker
+        - docker/check
+        - run: docker build -t joelchua2403/education-space .
         - snyk/scan: 
-            docker-image-name: joelchua2403/education-workspace
+            docker-image-name: joelchua2403/education-space
+            severity-threshold: high
 workflows:
   ci_flow:
     jobs:

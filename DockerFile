@@ -8,7 +8,7 @@ WORKDIR /app
 # Find the java file that is created when we run mvn clean package
 COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02-0.0.1.jar booking-app.jar
 
-CMD ["java", "-jar", "booking-app.jar"]
+CMD ["java", "-jar", "harbourBookingSystem-0.0.1.jar"]
 
 
 # mvn clean package will compile your code and also package it. 

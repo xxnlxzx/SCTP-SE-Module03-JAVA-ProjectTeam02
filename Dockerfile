@@ -6,7 +6,7 @@ FROM eclipse-temurin:17.0.7_7-jdk
 WORKDIR /app
 
 # Find the java file that is created when we run mvn clean package
-COPY ../target/harbourBookingSystem-0.0.1.jar harbourBookingSystem-0.0.1.jar
+COPY ../target/harbourBookingSystem-0.0.1.jar .
 
 CMD ["java", "-jar", "harbourBookingSystem-0.0.1.jar"]
 

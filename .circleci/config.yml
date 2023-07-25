@@ -80,12 +80,6 @@ workflows:
           filters:
             branches:
               only: release 
-      - scan:
-          requires:
-            - test
-          filters:
-            branches: 
-              only: release
       - build-and-push:
           requires:
             - test

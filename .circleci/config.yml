@@ -18,19 +18,6 @@ jobs:
     steps:
       - checkout
       - run: mvn test
-
-  scan:
-    docker:
-      - image: cimg/node:16.10
-      environment:
-          IMAGE_NAME: edisonzsq/education-space
-      steps:
-          - checkout
-          - setup_remote_docker      
-          - docker/check
-          - run: docker build -t joelchua2403/education-workspace .
-          - snyk/scan: 
-              docker-image-name: joelchua2403/education-workspace
     
   build-and-push:
     docker:

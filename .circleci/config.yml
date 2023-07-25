@@ -3,6 +3,7 @@ orbs:
   heroku: circleci/heroku@2.0.0
   snyk: snyk/snyk@1.5.0
   node: circleci/node@5.0.1
+  docker: circleci/docker@2.1.4
 
 jobs:
   build:
@@ -50,16 +51,16 @@ jobs:
 
   snyk-scan:
       docker:
-            - image: cimg/node:16.10
-        environment:
-            IMAGE_NAME: joelchua2403/education-space
-        steps:
-            - checkout
-            - setup_remote_docker      
-            - docker/check
-            - run: docker build -t joelchua2403/education-workspace .
-            - snyk/scan: 
-                docker-image-name: joelchua2403/education-workspace
+          - image: cimg/node:16.10
+      environment:
+          IMAGE_NAME: joelchua2403/education-space
+      steps:
+          - checkout
+          - setup_remote_docker      
+          - docker/check
+          - run: docker build -t joelchua2403/education-workspace .
+          - snyk/scan: 
+              docker-image-name: joelchua2403/education-workspace
 workflows:
   ci_flow:
     jobs:

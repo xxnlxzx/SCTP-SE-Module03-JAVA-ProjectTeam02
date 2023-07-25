@@ -1,6 +1,8 @@
 version: 2.1
 orbs:
   heroku: circleci/heroku@2.0.0
+  snyk: snyk/snyk@1.5.0
+
 jobs:
   build:
     docker:
@@ -9,6 +11,7 @@ jobs:
     steps:
       - checkout
       - run: mvn install -DskipTests
+
   test:
     docker:
       - image: cimg/openjdk:17.0.7
@@ -29,6 +32,7 @@ jobs:
             docker build -t joelchua2403/education-workspace . 
             docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
             docker push joelchua2403/education-workspace
+
   deploy:
     docker:
         - image: cimg/openjdk:17.0.7
@@ -43,6 +47,13 @@ jobs:
                 heroku container:push web -a joelchua2403-su-devops
                 heroku container:release web -a joelchua2403-su-devops
 
+  snyk-scan:
+    docker:
+      - image: cimg/openjdk:17.0.7
+    steps:
+      - checkout
+      - run: npx snyk test --severity-threshold=medium
+
 workflows:
   ci_flow:
     jobs:
@@ -56,6 +67,7 @@ workflows:
           filters:
             branches:
               only: develop 
+
   cicd_flow:
     jobs:
       - build:
@@ -72,15 +84,33 @@ workflows:
           requires:
             - test
           filters:
-            # tags:
-            #   only: /^v.*/  
             branches: 
               only: release
       - deploy:
           requires:
             - build-and-push
           filters:
-            # tags:
-            #   only: /^v.*/
             branches: 
               only: release
+
+  heroku_workflow:
+    jobs:
+      - build-and-push:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build-and-push
+          filters:
+            branches:
+              only: master
+
+  snyk_workflow:
+    jobs:
+      - snyk-scan:
+          filters:
+            branches:
+              only: develop
+            tags:
+              only: /^v.*/  

@@ -6,7 +6,7 @@ FROM eclipse-temurin:17.0.7_7-jdk
 WORKDIR /app
 
 # Find the java file that is created when we run mvn clean package
-COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02jar .
+COPY target/SCTP-SE-MODULE03-JAVA-PROJECTTEAM02.jar .
 CMD ["java", "-jar", "booking-app.jar"]
 
 

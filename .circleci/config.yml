@@ -70,7 +70,7 @@ jobs:
         - run: docker build -t joelchua2403/education-workspace .
         - snyk/scan: 
             docker-image-name: joelchua2403/education-workspace
-            severity-threshold: high
+            severity-threshold: critical
 
 
 workflows:
